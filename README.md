@@ -11,3 +11,6 @@
 ### 序列标注
 ### 阅读理解
 
+## 模型保存和加载
+最好的方式是可以使用`tf.keras.experimental.export_saved_model`导出模型，然后直接使用TF serving部署
+
