@@ -58,3 +58,13 @@
 2. [paddlehub](https://github.com/PaddlePaddle/PaddleHub)
 
 3. [Data URL](https://paddlehub-dataset.bj.bcebos.com/msra_ner.tar.gz)
+
+## 目前存在问题
+鉴于我对这一任务不是很了解，目前还存在一些问题
+- 代码问题
+```python
+UserWarning: Converting sparse IndexedSlices to a dense Tensor of unknown shape. This may consume a large amount of memory.
+```
+尚不清楚警告的来源，大约是来自tf.gather函数，还需要查找警告的原因和影响。
+- 评价问题
+使用的是`seqeval.metrics`，效果很差，但是正确率很高，尚不清楚是模型有问题还是评价函数有问题
