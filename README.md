@@ -28,7 +28,7 @@ BERT的多分类任务和二分类类似，只需要修改标签，然后sigmod�
 开发中
 ### 阅读理解
 - 斯坦福SQUAD类似的中文检索式阅读理解
-代码量有点大，未完成
+未完成
 ## 模型保存和部署
 最好的方式是可以使用`tf.keras.experimental.export_saved_model`导出模型，然后直接使用TF serving部署
 
