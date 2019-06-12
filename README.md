@@ -37,7 +37,7 @@ BERT的多分类任务和二分类类似，只需要修改标签，然后sigmod�
 ## 模型保存和部署
 最好的方式是可以使用`tf.keras.experimental.export_saved_model`导出模型，然后直接使用TF serving部署
 
-##其他说明
+## 其他说明
 - 为什么用tf.keras而不是keras
 tf.keras成为TF2.0的主要模式，由TF团队开发，支持更多TF的特性包括tf.data以及tf serving，TF2.0出了之后项目会迁移到TF2.0，而keras已经较长时间没有重大更新了，所以tf.keras是更好的选择。
 
