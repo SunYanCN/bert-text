@@ -40,7 +40,7 @@ BERT的多分类任务和二分类类似，只需要修改标签，然后sigmod�
 - 为什么用tf.keras而不是keras
 tf.keras成为TF2.0的主要模式，由TF团队开发，支持更多TF的特性包括tf.data以及tf serving，TF2.0出了之后项目会迁移到TF2.0，而keras已经较长时间没有重大更新了，所以tf.keras是更好的选择。
 - 由于网络原因，无法下载Tensorflow hub的BERT模型
-这里有一份百度云的，[链接](链接: https://pan.baidu.com/s/1Gm9Hcs4ysJGITKUoPZJxNg),提取码:4pcq，大小为364.1M，linux下载解压后拷贝到`/tmp/`，完成后的路径为`/tmp/tfhub_modules`
+这里有一份百度云的，[链接](链接: https://pan.baidu.com/s/1Gm9Hcs4ysJGITKUoPZJxNg)， 提取码:4pcq，大小为364.1M，linux下载解压后拷贝到`/tmp/`，完成后的路径为`/tmp/tfhub_modules`
  - [ ] Tensorflow hub加载本地路径
  - [ ] Windows测试
 
