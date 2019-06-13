@@ -40,8 +40,8 @@ BERT的多分类任务和二分类类似，只需要修改标签，然后sigmod�
 - [ ] 最好的方式是可以使用`tf.keras.experimental.export_saved_model`导出模型，然后直接使用TF serving部署。
 
 ## TF Data输入
-- [ ] 多输入的TF Data写法
-- [ ] GPU利用率的比较
+- [x] 多输入的TF Data写法
+- [x] GPU利用率的比较
 
 ## 其他说明
 - 为什么用tf.keras而不是keras
