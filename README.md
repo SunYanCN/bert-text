@@ -13,7 +13,7 @@
 - Tensorflow:1.13.1
 - Tensorflow-hub
 
-## Tasks
+## TODO List 
 ### 句子向量化
 - [x]  ~~但是存在一个重复加载计算图导致速度变慢的问题，体验不佳，后续将改进。~~ 
 已解决,解决方法是直接使用BERT的分词器,不从hub重新加载,撒花!
@@ -35,7 +35,7 @@ BERT的多分类任务和二分类类似，只需要修改标签，然后sigmod�
 - [ ] 斯坦福SQUAD类似的中文检索式阅读理解
 
 未完成
-## 模型保存和部署
+### 模型保存和部署
 - [x] h5转saved_model。
 - [ ] 最好的方式是可以使用`tf.keras.experimental.export_saved_model`导出模型，然后直接使用TF serving部署。
 
