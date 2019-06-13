@@ -36,7 +36,8 @@ Epoch 4/4  loss: 0.1951 - acc: 0.9220 - val_loss: 0.2336 - val_acc: 0.9192
 ```
 ## 普通numpy和tf.data的输入方式性能
 (tf.keras搭配tf.data多输入以及如何查看gpu利用率,花了我一天时间~)
-左边是内存使用情况,右边是gpu利用率
+
+左边是内存使用情况,右边是gpu利用率,最后算了平均值,感觉比较下来差别并不大。
 ### 普通numpy
 
 ![](https://user-gold-cdn.xitu.io/2019/6/13/16b50af51ae0dec1?w=640&h=480&f=png&s=29183)
