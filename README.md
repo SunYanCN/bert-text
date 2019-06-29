@@ -1,5 +1,5 @@
 # BERT+ TF Keras For NLP Tasks
-**说明**：本项目处于开发阶段，暂时不可用
+**说明**：本项目处于开发阶段，暂时不可用，欢迎有志之士一同开发。
 
 **简介**：以Tensorflow的Keras和Tensorflow hub的Bert预训练模型开发NLP的各种任务。
 
