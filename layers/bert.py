@@ -2,6 +2,7 @@ import tensorflow as tf
 import tensorflow_hub as hub
 from tensorflow.keras import backend as K
 
+
 class BertLayer(tf.layers.Layer):
     def __init__(
         self,
