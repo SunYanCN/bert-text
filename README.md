@@ -42,7 +42,6 @@ BERT的多分类任务和二分类类似，只需要修改标签，然后sigmod�
 - [x] GPU利用率的比较
 
 ### 其他计划
- - [ ] Tensorflow hub加载本地路径
  - [ ] Windows测试
 
 ## 其他说明
