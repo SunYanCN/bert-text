@@ -1,0 +1,377 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="zh" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>layers.bert &mdash; bert_text 0.1.0 文档</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../../',
+              VERSION:'0.1.0',
+              LANGUAGE:'zh',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> bert_text
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">bert_text</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">模块代码</a> &raquo;</li>
+        
+      <li>layers.bert</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>layers.bert 源代码</h1><div class="highlight"><pre>
+<span></span><span class="ch">#! -*- coding: utf-8 -*-</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
+
+<span class="kn">from</span> <span class="nn">tensorflow.keras.models</span> <span class="k">import</span> <span class="n">Model</span>
+
+<span class="kn">from</span> <span class="nn">.layers</span> <span class="k">import</span> <span class="o">*</span>
+
+
+<div class="viewcode-block" id="get_bert_model"><a class="viewcode-back" href="../../rst/layers.html#layers.bert.get_bert_model">[文档]</a><span class="k">def</span> <span class="nf">get_bert_model</span><span class="p">(</span><span class="n">vocab_size</span><span class="p">,</span> <span class="n">max_position_embeddings</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">,</span>
+                   <span class="n">num_hidden_layers</span><span class="p">,</span> <span class="n">num_attention_heads</span><span class="p">,</span> <span class="n">intermediate_size</span><span class="p">,</span>
+                   <span class="n">hidden_act</span><span class="p">,</span> <span class="n">dropout_rate</span><span class="p">,</span> <span class="n">seq2seq</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;构建跟Bert一样结构的Transformer-based模型</span>
+<span class="sd">    如果是seq2seq=True，则进行特殊的mask，使得它可以直接用于seq2seq用途</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">attention_head_size</span> <span class="o">=</span> <span class="n">hidden_size</span> <span class="o">//</span> <span class="n">num_attention_heads</span>
+
+    <span class="k">if</span> <span class="n">hidden_act</span> <span class="o">==</span> <span class="s1">&#39;gelu&#39;</span><span class="p">:</span>
+        <span class="n">hidden_act</span> <span class="o">=</span> <span class="n">gelu</span>
+
+    <span class="n">x_in</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Input-Token&#39;</span><span class="p">)</span>
+    <span class="n">s_in</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Input-Segment&#39;</span><span class="p">)</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">x_in</span><span class="p">,</span> <span class="n">s_in</span>
+
+    <span class="c1"># 自行构建Mask</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">Lambda</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">K</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">greater</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s1">&#39;float32&#39;</span><span class="p">),</span>
+                  <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Input-Mask&#39;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="c1"># Attention矩阵的mask，对s_in=1的部分mask掉未来信息</span>
+    <span class="k">if</span> <span class="n">seq2seq</span><span class="p">:</span>
+        <span class="n">seq_len</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">s</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">ones</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">))</span>
+        <span class="n">a_mask</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">matrix_band_part</span><span class="p">(</span><span class="n">ones</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">s_ex12</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">s_ex13</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">a_mask</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">s_ex13</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">s_ex12</span><span class="p">)</span> <span class="o">+</span> <span class="n">s_ex13</span> <span class="o">*</span> <span class="n">a_mask</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">a_mask</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Embedding部分</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Embedding</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="n">vocab_size</span><span class="p">,</span>
+                  <span class="n">output_dim</span><span class="o">=</span><span class="n">hidden_size</span><span class="p">,</span>
+                  <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Embedding-Token&#39;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">Embedding</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                  <span class="n">output_dim</span><span class="o">=</span><span class="n">hidden_size</span><span class="p">,</span>
+                  <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Embedding-Segment&#39;</span><span class="p">)(</span><span class="n">s</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Add</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Embedding-Token-Segment&#39;</span><span class="p">)([</span><span class="n">x</span><span class="p">,</span> <span class="n">s</span><span class="p">])</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">PositionEmbedding</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="n">max_position_embeddings</span><span class="p">,</span>
+                          <span class="n">output_dim</span><span class="o">=</span><span class="n">hidden_size</span><span class="p">,</span>
+                          <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Embedding-Position&#39;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">dropout_rate</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">Dropout</span><span class="p">(</span><span class="n">rate</span><span class="o">=</span><span class="n">dropout_rate</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Embedding-Dropout&#39;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">LayerNormalization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Embedding-Norm&#39;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="c1"># Transformer部分</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_hidden_layers</span><span class="p">):</span>
+        <span class="n">attention_name</span> <span class="o">=</span> <span class="s1">&#39;Encoder-</span><span class="si">%d</span><span class="s1">-MultiHeadSelfAttention&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">feed_forward_name</span> <span class="o">=</span> <span class="s1">&#39;Encoder-</span><span class="si">%d</span><span class="s1">-FeedForward&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># Self Attention</span>
+        <span class="n">xi</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">MultiHeadAttention</span><span class="p">(</span><span class="n">heads</span><span class="o">=</span><span class="n">num_attention_heads</span><span class="p">,</span>
+                               <span class="n">head_size</span><span class="o">=</span><span class="n">attention_head_size</span><span class="p">,</span>
+                               <span class="n">name</span><span class="o">=</span><span class="n">attention_name</span><span class="p">)([</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">mask</span><span class="p">],</span> <span class="n">masked</span><span class="o">=</span><span class="n">a_mask</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dropout_rate</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">Dropout</span><span class="p">(</span><span class="n">rate</span><span class="o">=</span><span class="n">dropout_rate</span><span class="p">,</span>
+                        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">-Dropout&#39;</span> <span class="o">%</span> <span class="n">attention_name</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">Add</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">-Add&#39;</span> <span class="o">%</span> <span class="n">attention_name</span><span class="p">)([</span><span class="n">xi</span><span class="p">,</span> <span class="n">x</span><span class="p">])</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">LayerNormalization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">-Norm&#39;</span> <span class="o">%</span> <span class="n">attention_name</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+        <span class="c1"># Feed Forward</span>
+        <span class="n">xi</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">FeedForward</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="n">intermediate_size</span><span class="p">,</span>
+                        <span class="n">activation</span><span class="o">=</span><span class="n">hidden_act</span><span class="p">,</span>
+                        <span class="n">name</span><span class="o">=</span><span class="n">feed_forward_name</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dropout_rate</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">Dropout</span><span class="p">(</span><span class="n">rate</span><span class="o">=</span><span class="n">dropout_rate</span><span class="p">,</span>
+                        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">-Dropout&#39;</span> <span class="o">%</span> <span class="n">feed_forward_name</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">Add</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">-Add&#39;</span> <span class="o">%</span> <span class="n">feed_forward_name</span><span class="p">)([</span><span class="n">xi</span><span class="p">,</span> <span class="n">x</span><span class="p">])</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">LayerNormalization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">-Norm&#39;</span> <span class="o">%</span> <span class="n">feed_forward_name</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">Model</span><span class="p">([</span><span class="n">x_in</span><span class="p">,</span> <span class="n">s_in</span><span class="p">],</span> <span class="n">x</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="load_weights_from_checkpoint"><a class="viewcode-back" href="../../rst/layers.html#layers.bert.load_weights_from_checkpoint">[文档]</a><span class="k">def</span> <span class="nf">load_weights_from_checkpoint</span><span class="p">(</span><span class="n">model</span><span class="p">,</span>
+                                 <span class="n">checkpoint_file</span><span class="p">,</span>
+                                 <span class="n">config</span><span class="p">,</span>
+                                 <span class="n">keep_words</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;从预训练好的checkpoint中加载权重</span>
+<span class="sd">    keep_words是词ID组成的list，为精简Embedding层而传入</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">loader</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">load_variable</span><span class="p">,</span> <span class="n">checkpoint_file</span><span class="p">)</span>
+    <span class="n">num_hidden_layers</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;num_hidden_layers&#39;</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">keep_words</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">get_layer</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Embedding-Token&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_weights</span><span class="p">([</span>
+            <span class="n">loader</span><span class="p">(</span><span class="s1">&#39;bert/embeddings/word_embeddings&#39;</span><span class="p">),</span>
+        <span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">get_layer</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Embedding-Token&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_weights</span><span class="p">([</span>
+            <span class="n">loader</span><span class="p">(</span><span class="s1">&#39;bert/embeddings/word_embeddings&#39;</span><span class="p">)[</span><span class="n">keep_words</span><span class="p">],</span>
+        <span class="p">])</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">get_layer</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Embedding-Position&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_weights</span><span class="p">([</span>
+        <span class="n">loader</span><span class="p">(</span><span class="s1">&#39;bert/embeddings/position_embeddings&#39;</span><span class="p">),</span>
+    <span class="p">])</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">get_layer</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Embedding-Segment&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_weights</span><span class="p">([</span>
+        <span class="n">loader</span><span class="p">(</span><span class="s1">&#39;bert/embeddings/token_type_embeddings&#39;</span><span class="p">),</span>
+    <span class="p">])</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">get_layer</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Embedding-Norm&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_weights</span><span class="p">([</span>
+        <span class="n">loader</span><span class="p">(</span><span class="s1">&#39;bert/embeddings/LayerNorm/gamma&#39;</span><span class="p">),</span>
+        <span class="n">loader</span><span class="p">(</span><span class="s1">&#39;bert/embeddings/LayerNorm/beta&#39;</span><span class="p">),</span>
+    <span class="p">])</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_hidden_layers</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">model</span><span class="o">.</span><span class="n">get_layer</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Encoder-</span><span class="si">%d</span><span class="s1">-MultiHeadSelfAttention&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">get_layer</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Encoder-</span><span class="si">%d</span><span class="s1">-MultiHeadSelfAttention&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">set_weights</span><span class="p">([</span>
+            <span class="n">loader</span><span class="p">(</span><span class="s1">&#39;bert/encoder/layer_</span><span class="si">%d</span><span class="s1">/attention/self/query/kernel&#39;</span> <span class="o">%</span> <span class="n">i</span><span class="p">),</span>
+            <span class="n">loader</span><span class="p">(</span><span class="s1">&#39;bert/encoder/layer_</span><span class="si">%d</span><span class="s1">/attention/self/query/bias&#39;</span> <span class="o">%</span> <span class="n">i</span><span class="p">),</span>
+            <span class="n">loader</span><span class="p">(</span><span class="s1">&#39;bert/encoder/layer_</span><span class="si">%d</span><span class="s1">/attention/self/key/kernel&#39;</span> <span class="o">%</span> <span class="n">i</span><span class="p">),</span>
+            <span class="n">loader</span><span class="p">(</span><span class="s1">&#39;bert/encoder/layer_</span><span class="si">%d</span><span class="s1">/attention/self/key/bias&#39;</span> <span class="o">%</span> <span class="n">i</span><span class="p">),</span>
+            <span class="n">loader</span><span class="p">(</span><span class="s1">&#39;bert/encoder/layer_</span><span class="si">%d</span><span class="s1">/attention/self/value/kernel&#39;</span> <span class="o">%</span> <span class="n">i</span><span class="p">),</span>
+            <span class="n">loader</span><span class="p">(</span><span class="s1">&#39;bert/encoder/layer_</span><span class="si">%d</span><span class="s1">/attention/self/value/bias&#39;</span> <span class="o">%</span> <span class="n">i</span><span class="p">),</span>
+            <span class="n">loader</span><span class="p">(</span><span class="s1">&#39;bert/encoder/layer_</span><span class="si">%d</span><span class="s1">/attention/output/dense/kernel&#39;</span> <span class="o">%</span> <span class="n">i</span><span class="p">),</span>
+            <span class="n">loader</span><span class="p">(</span><span class="s1">&#39;bert/encoder/layer_</span><span class="si">%d</span><span class="s1">/attention/output/dense/bias&#39;</span> <span class="o">%</span> <span class="n">i</span><span class="p">),</span>
+        <span class="p">])</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">get_layer</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Encoder-</span><span class="si">%d</span><span class="s1">-MultiHeadSelfAttention-Norm&#39;</span> <span class="o">%</span>
+                 <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">set_weights</span><span class="p">([</span>
+            <span class="n">loader</span><span class="p">(</span>
+                <span class="s1">&#39;bert/encoder/layer_</span><span class="si">%d</span><span class="s1">/attention/output/LayerNorm/gamma&#39;</span> <span class="o">%</span> <span class="n">i</span><span class="p">),</span>
+            <span class="n">loader</span><span class="p">(</span>
+                <span class="s1">&#39;bert/encoder/layer_</span><span class="si">%d</span><span class="s1">/attention/output/LayerNorm/beta&#39;</span> <span class="o">%</span> <span class="n">i</span><span class="p">),</span>
+        <span class="p">])</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">get_layer</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Encoder-</span><span class="si">%d</span><span class="s1">-MultiHeadSelfAttention-Norm&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">set_weights</span><span class="p">([</span>
+            <span class="n">loader</span><span class="p">(</span>
+                <span class="s1">&#39;bert/encoder/layer_</span><span class="si">%d</span><span class="s1">/attention/output/LayerNorm/gamma&#39;</span> <span class="o">%</span> <span class="n">i</span><span class="p">),</span>
+            <span class="n">loader</span><span class="p">(</span>
+                <span class="s1">&#39;bert/encoder/layer_</span><span class="si">%d</span><span class="s1">/attention/output/LayerNorm/beta&#39;</span> <span class="o">%</span> <span class="n">i</span><span class="p">),</span>
+        <span class="p">])</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">get_layer</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Encoder-</span><span class="si">%d</span><span class="s1">-FeedForward&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">set_weights</span><span class="p">([</span>
+            <span class="n">loader</span><span class="p">(</span><span class="s1">&#39;bert/encoder/layer_</span><span class="si">%d</span><span class="s1">/intermediate/dense/kernel&#39;</span> <span class="o">%</span> <span class="n">i</span><span class="p">),</span>
+            <span class="n">loader</span><span class="p">(</span><span class="s1">&#39;bert/encoder/layer_</span><span class="si">%d</span><span class="s1">/intermediate/dense/bias&#39;</span> <span class="o">%</span> <span class="n">i</span><span class="p">),</span>
+            <span class="n">loader</span><span class="p">(</span><span class="s1">&#39;bert/encoder/layer_</span><span class="si">%d</span><span class="s1">/output/dense/kernel&#39;</span> <span class="o">%</span> <span class="n">i</span><span class="p">),</span>
+            <span class="n">loader</span><span class="p">(</span><span class="s1">&#39;bert/encoder/layer_</span><span class="si">%d</span><span class="s1">/output/dense/bias&#39;</span> <span class="o">%</span> <span class="n">i</span><span class="p">),</span>
+        <span class="p">])</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">get_layer</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Encoder-</span><span class="si">%d</span><span class="s1">-FeedForward-Norm&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">set_weights</span><span class="p">([</span>
+            <span class="n">loader</span><span class="p">(</span><span class="s1">&#39;bert/encoder/layer_</span><span class="si">%d</span><span class="s1">/output/LayerNorm/gamma&#39;</span> <span class="o">%</span> <span class="n">i</span><span class="p">),</span>
+            <span class="n">loader</span><span class="p">(</span><span class="s1">&#39;bert/encoder/layer_</span><span class="si">%d</span><span class="s1">/output/LayerNorm/beta&#39;</span> <span class="o">%</span> <span class="n">i</span><span class="p">),</span>
+        <span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="load_pretrained_model"><a class="viewcode-back" href="../../rst/layers.html#layers.bert.load_pretrained_model">[文档]</a><span class="k">def</span> <span class="nf">load_pretrained_model</span><span class="p">(</span><span class="n">config_path</span><span class="p">,</span>
+                          <span class="n">checkpoint_file</span><span class="p">,</span>
+                          <span class="n">seq2seq</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                          <span class="n">keep_words</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;根据配置文件和checkpoint文件来加载模型</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">config_path</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">keep_words</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">vocab_size</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;vocab_size&#39;</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">vocab_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">keep_words</span><span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">get_bert_model</span><span class="p">(</span>
+        <span class="n">vocab_size</span><span class="o">=</span><span class="n">vocab_size</span><span class="p">,</span>
+        <span class="n">max_position_embeddings</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;max_position_embeddings&#39;</span><span class="p">],</span>
+        <span class="n">hidden_size</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;hidden_size&#39;</span><span class="p">],</span>
+        <span class="n">num_hidden_layers</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;num_hidden_layers&#39;</span><span class="p">],</span>
+        <span class="n">num_attention_heads</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;num_attention_heads&#39;</span><span class="p">],</span>
+        <span class="n">intermediate_size</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;intermediate_size&#39;</span><span class="p">],</span>
+        <span class="n">hidden_act</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;hidden_act&#39;</span><span class="p">],</span>
+        <span class="n">dropout_rate</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+        <span class="n">seq2seq</span><span class="o">=</span><span class="n">seq2seq</span><span class="p">)</span>
+    <span class="n">load_weights_from_checkpoint</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">checkpoint_file</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">keep_words</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">model</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Sun Yan
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

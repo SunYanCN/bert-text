@@ -1,0 +1,423 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="zh" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>prepare package &mdash; bert_text 0.1.0 文档</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'0.1.0',
+              LANGUAGE:'zh',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> bert_text
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">prepare package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-prepare.classification">prepare.classification module</a></li>
+<li><a class="reference internal" href="#module-prepare.qa_match">prepare.qa_match module</a></li>
+<li><a class="reference internal" href="#module-prepare.reading_comprehension">prepare.reading_comprehension module</a></li>
+<li><a class="reference internal" href="#module-prepare.sentence_embedding">prepare.sentence_embedding module</a></li>
+<li><a class="reference internal" href="#module-prepare.sequence_label">prepare.sequence_label module</a></li>
+<li><a class="reference internal" href="#module-prepare.utils">prepare.utils module</a></li>
+<li><a class="reference internal" href="#module-prepare">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">bert_text</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>prepare package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/rst/prepare.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="prepare-package">
+<h1>prepare package<a class="headerlink" href="#prepare-package" title="永久链接至标题">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="module-prepare.classification">
+<span id="prepare-classification-module"></span><h2>prepare.classification module<a class="headerlink" href="#module-prepare.classification" title="永久链接至标题">¶</a></h2>
+<dl class="class">
+<dt id="prepare.classification.PaddingInputExample">
+<em class="property">class </em><code class="descclassname">prepare.classification.</code><code class="descname">PaddingInputExample</code><a class="reference internal" href="../_modules/prepare/classification.html#PaddingInputExample"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#prepare.classification.PaddingInputExample" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(在 Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Fake example so the num input examples is a multiple of the batch size.
+When running eval/predict on the TPU, we need to pad the number of examples
+to be a multiple of the batch size, because the TPU requires a fixed batch
+size. The alternative is to drop the last batch, which is bad because it means
+the entire output data won't be generated.
+We use this class instead of <cite>None</cite> because treating <cite>None</cite> as padding
+battches could cause silent errors.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="prepare.classification.convert_examples_to_features">
+<code class="descclassname">prepare.classification.</code><code class="descname">convert_examples_to_features</code><span class="sig-paren">(</span><em>tokenizer</em>, <em>examples</em>, <em>max_seq_length=256</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/prepare/classification.html#convert_examples_to_features"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#prepare.classification.convert_examples_to_features" title="永久链接至目标">¶</a></dt>
+<dd><p>Convert a set of <cite>InputExample`s to a list of `InputFeatures</cite>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="prepare.classification.convert_single_example">
+<code class="descclassname">prepare.classification.</code><code class="descname">convert_single_example</code><span class="sig-paren">(</span><em>tokenizer</em>, <em>example</em>, <em>max_seq_length=256</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/prepare/classification.html#convert_single_example"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#prepare.classification.convert_single_example" title="永久链接至目标">¶</a></dt>
+<dd><p>Converts a single <cite>InputExample</cite> into a single <cite>InputFeatures</cite>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="prepare.classification.pipline">
+<code class="descclassname">prepare.classification.</code><code class="descname">pipline</code><span class="sig-paren">(</span><em>vocab_file</em>, <em>do_lower_case</em>, <em>dataset</em>, <em>max_seq_length</em>, <em>batch_size=None</em>, <em>epochs=None</em>, <em>return_tf_dataset=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/prepare/classification.html#pipline"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#prepare.classification.pipline" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="prepare.classification.tfdata_generator">
+<code class="descclassname">prepare.classification.</code><code class="descname">tfdata_generator</code><span class="sig-paren">(</span><em>inputs</em>, <em>labels</em>, <em>is_training</em>, <em>max_seq_length</em>, <em>batch_size=None</em>, <em>epochs=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/prepare/classification.html#tfdata_generator"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#prepare.classification.tfdata_generator" title="永久链接至目标">¶</a></dt>
+<dd><p>Construct a data generator using tf.Dataset</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-prepare.qa_match">
+<span id="prepare-qa-match-module"></span><h2>prepare.qa_match module<a class="headerlink" href="#module-prepare.qa_match" title="永久链接至标题">¶</a></h2>
+<dl class="class">
+<dt id="prepare.qa_match.PaddingInputExample">
+<em class="property">class </em><code class="descclassname">prepare.qa_match.</code><code class="descname">PaddingInputExample</code><a class="reference internal" href="../_modules/prepare/qa_match.html#PaddingInputExample"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#prepare.qa_match.PaddingInputExample" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(在 Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Fake example so the num input examples is a multiple of the batch size.
+When running eval/predict on the TPU, we need to pad the number of examples
+to be a multiple of the batch size, because the TPU requires a fixed batch
+size. The alternative is to drop the last batch, which is bad because it means
+the entire output data won't be generated.
+We use this class instead of <cite>None</cite> because treating <cite>None</cite> as padding
+battches could cause silent errors.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="prepare.qa_match.qa_match_convert_examples_to_features">
+<code class="descclassname">prepare.qa_match.</code><code class="descname">qa_match_convert_examples_to_features</code><span class="sig-paren">(</span><em>tokenizer</em>, <em>examples</em>, <em>max_seq_length=256</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/prepare/qa_match.html#qa_match_convert_examples_to_features"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#prepare.qa_match.qa_match_convert_examples_to_features" title="永久链接至目标">¶</a></dt>
+<dd><p>Convert a set of <cite>InputExample`s to a list of `InputFeatures</cite>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="prepare.qa_match.qa_match_convert_single_example">
+<code class="descclassname">prepare.qa_match.</code><code class="descname">qa_match_convert_single_example</code><span class="sig-paren">(</span><em>tokenizer</em>, <em>example</em>, <em>max_seq_length=256</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/prepare/qa_match.html#qa_match_convert_single_example"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#prepare.qa_match.qa_match_convert_single_example" title="永久链接至目标">¶</a></dt>
+<dd><p>Converts a single <cite>InputExample</cite> into a single <cite>InputFeatures</cite>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="prepare.qa_match.qa_match_pipline">
+<code class="descclassname">prepare.qa_match.</code><code class="descname">qa_match_pipline</code><span class="sig-paren">(</span><em>vocab_file</em>, <em>do_lower_case</em>, <em>dataset</em>, <em>max_seq_length</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/prepare/qa_match.html#qa_match_pipline"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#prepare.qa_match.qa_match_pipline" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-prepare.reading_comprehension">
+<span id="prepare-reading-comprehension-module"></span><h2>prepare.reading_comprehension module<a class="headerlink" href="#module-prepare.reading_comprehension" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt id="prepare.reading_comprehension.convert_examples_to_features">
+<code class="descclassname">prepare.reading_comprehension.</code><code class="descname">convert_examples_to_features</code><span class="sig-paren">(</span><em>examples</em>, <em>tokenizer</em>, <em>max_seq_length</em>, <em>doc_stride</em>, <em>max_query_length</em>, <em>is_training</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/prepare/reading_comprehension.html#convert_examples_to_features"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#prepare.reading_comprehension.convert_examples_to_features" title="永久链接至目标">¶</a></dt>
+<dd><p>Loads a data file into a list of <a href="#id1"><span class="problematic" id="id2">`</span></a>InputBatch`s.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="prepare.reading_comprehension.convert_single_example">
+<code class="descclassname">prepare.reading_comprehension.</code><code class="descname">convert_single_example</code><span class="sig-paren">(</span><em>tokenizer</em>, <em>example</em>, <em>is_training</em>, <em>max_query_length</em>, <em>max_seq_length</em>, <em>doc_stride</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/prepare/reading_comprehension.html#convert_single_example"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#prepare.reading_comprehension.convert_single_example" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="prepare.reading_comprehension.reading_comprehension_pipline">
+<code class="descclassname">prepare.reading_comprehension.</code><code class="descname">reading_comprehension_pipline</code><span class="sig-paren">(</span><em>dataset</em>, <em>vocab_file</em>, <em>do_lower_case</em>, <em>doc_stride</em>, <em>max_seq_length</em>, <em>max_query_length</em>, <em>batch_size</em>, <em>epochs</em>, <em>return_tf_dataset=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/prepare/reading_comprehension.html#reading_comprehension_pipline"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#prepare.reading_comprehension.reading_comprehension_pipline" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="prepare.reading_comprehension.tfdata_generator">
+<code class="descclassname">prepare.reading_comprehension.</code><code class="descname">tfdata_generator</code><span class="sig-paren">(</span><em>inputs</em>, <em>is_training</em>, <em>max_seq_length</em>, <em>batch_size=None</em>, <em>epochs=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/prepare/reading_comprehension.html#tfdata_generator"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#prepare.reading_comprehension.tfdata_generator" title="永久链接至目标">¶</a></dt>
+<dd><p>Construct a data generator using tf.Dataset</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-prepare.sentence_embedding">
+<span id="prepare-sentence-embedding-module"></span><h2>prepare.sentence_embedding module<a class="headerlink" href="#module-prepare.sentence_embedding" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt id="prepare.sentence_embedding.convert_string_list_to_features">
+<code class="descclassname">prepare.sentence_embedding.</code><code class="descname">convert_string_list_to_features</code><span class="sig-paren">(</span><em>tokenizer</em>, <em>string_list</em>, <em>max_seq_length=256</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/prepare/sentence_embedding.html#convert_string_list_to_features"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#prepare.sentence_embedding.convert_string_list_to_features" title="永久链接至目标">¶</a></dt>
+<dd><p>Convert a set of <cite>InputExample`s to a list of `InputFeatures</cite>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="prepare.sentence_embedding.convert_string_to_bert_input">
+<code class="descclassname">prepare.sentence_embedding.</code><code class="descname">convert_string_to_bert_input</code><span class="sig-paren">(</span><em>tokenizer</em>, <em>input_string</em>, <em>max_seq_length=128</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/prepare/sentence_embedding.html#convert_string_to_bert_input"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#prepare.sentence_embedding.convert_string_to_bert_input" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="prepare.sentence_embedding.convert_string_to_bert_input_for_bert_module">
+<code class="descclassname">prepare.sentence_embedding.</code><code class="descname">convert_string_to_bert_input_for_bert_module</code><span class="sig-paren">(</span><em>tokenizer</em>, <em>input_string</em>, <em>max_seq_length=128</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/prepare/sentence_embedding.html#convert_string_to_bert_input_for_bert_module"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#prepare.sentence_embedding.convert_string_to_bert_input_for_bert_module" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="prepare.sentence_embedding.sentence_embedding">
+<code class="descclassname">prepare.sentence_embedding.</code><code class="descname">sentence_embedding</code><span class="sig-paren">(</span><em>model</em>, <em>tokenizer</em>, <em>input_string</em>, <em>max_seq_length=128</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/prepare/sentence_embedding.html#sentence_embedding"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#prepare.sentence_embedding.sentence_embedding" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="prepare.sentence_embedding.sentence_embedding_batch">
+<code class="descclassname">prepare.sentence_embedding.</code><code class="descname">sentence_embedding_batch</code><span class="sig-paren">(</span><em>model</em>, <em>tokenizer</em>, <em>string_list</em>, <em>max_seq_length=128</em>, <em>batch_size=128</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/prepare/sentence_embedding.html#sentence_embedding_batch"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#prepare.sentence_embedding.sentence_embedding_batch" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="prepare.sentence_embedding.tfdata_generator">
+<code class="descclassname">prepare.sentence_embedding.</code><code class="descname">tfdata_generator</code><span class="sig-paren">(</span><em>inputs</em>, <em>batch_size=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/prepare/sentence_embedding.html#tfdata_generator"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#prepare.sentence_embedding.tfdata_generator" title="永久链接至目标">¶</a></dt>
+<dd><p>Construct a data generator using tf.Dataset</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-prepare.sequence_label">
+<span id="prepare-sequence-label-module"></span><h2>prepare.sequence_label module<a class="headerlink" href="#module-prepare.sequence_label" title="永久链接至标题">¶</a></h2>
+<dl class="class">
+<dt id="prepare.sequence_label.PaddingInputExample">
+<em class="property">class </em><code class="descclassname">prepare.sequence_label.</code><code class="descname">PaddingInputExample</code><a class="reference internal" href="../_modules/prepare/sequence_label.html#PaddingInputExample"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#prepare.sequence_label.PaddingInputExample" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(在 Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Fake example so the num input examples is a multiple of the batch size.
+When running eval/predict on the TPU, we need to pad the number of examples
+to be a multiple of the batch size, because the TPU requires a fixed batch
+size. The alternative is to drop the last batch, which is bad because it means
+the entire output data won't be generated.
+We use this class instead of <cite>None</cite> because treating <cite>None</cite> as padding
+battches could cause silent errors.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="prepare.sequence_label.ner_convert_examples_to_features">
+<code class="descclassname">prepare.sequence_label.</code><code class="descname">ner_convert_examples_to_features</code><span class="sig-paren">(</span><em>tokenizer</em>, <em>examples</em>, <em>max_seq_length=256</em>, <em>label_map=None</em>, <em>output_dir='.'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/prepare/sequence_label.html#ner_convert_examples_to_features"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#prepare.sequence_label.ner_convert_examples_to_features" title="永久链接至目标">¶</a></dt>
+<dd><p>Convert a set of <cite>InputExample`s to a list of `InputFeatures</cite>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="prepare.sequence_label.ner_convert_single_example">
+<code class="descclassname">prepare.sequence_label.</code><code class="descname">ner_convert_single_example</code><span class="sig-paren">(</span><em>tokenizer</em>, <em>example</em>, <em>label_map=None</em>, <em>output_dir='.'</em>, <em>max_seq_length=256</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/prepare/sequence_label.html#ner_convert_single_example"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#prepare.sequence_label.ner_convert_single_example" title="永久链接至目标">¶</a></dt>
+<dd><p>Converts a single <cite>InputExample</cite> into a single <cite>InputFeatures</cite>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="prepare.sequence_label.ner_pipline">
+<code class="descclassname">prepare.sequence_label.</code><code class="descname">ner_pipline</code><span class="sig-paren">(</span><em>vocab_file</em>, <em>do_lower_case</em>, <em>dataset</em>, <em>max_seq_length</em>, <em>num_labels</em>, <em>label_map=None</em>, <em>output_dir='.'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/prepare/sequence_label.html#ner_pipline"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#prepare.sequence_label.ner_pipline" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="prepare.sequence_label.tfdata_generator">
+<code class="descclassname">prepare.sequence_label.</code><code class="descname">tfdata_generator</code><span class="sig-paren">(</span><em>inputs</em>, <em>labels</em>, <em>is_training</em>, <em>max_seq_length</em>, <em>batch_size=None</em>, <em>epochs=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/prepare/sequence_label.html#tfdata_generator"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#prepare.sequence_label.tfdata_generator" title="永久链接至目标">¶</a></dt>
+<dd><p>Construct a data generator using tf.Dataset</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-prepare.utils">
+<span id="prepare-utils-module"></span><h2>prepare.utils module<a class="headerlink" href="#module-prepare.utils" title="永久链接至标题">¶</a></h2>
+<dl class="class">
+<dt id="prepare.utils.ChineseFullTokenizer">
+<em class="property">class </em><code class="descclassname">prepare.utils.</code><code class="descname">ChineseFullTokenizer</code><span class="sig-paren">(</span><em>vocab_file</em>, <em>do_lower_case=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/prepare/utils.html#ChineseFullTokenizer"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#prepare.utils.ChineseFullTokenizer" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(在 Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Runs end-to-end tokenziation.</p>
+<dl class="method">
+<dt id="prepare.utils.ChineseFullTokenizer.convert_ids_to_tokens">
+<code class="descname">convert_ids_to_tokens</code><span class="sig-paren">(</span><em>ids</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/prepare/utils.html#ChineseFullTokenizer.convert_ids_to_tokens"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#prepare.utils.ChineseFullTokenizer.convert_ids_to_tokens" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="prepare.utils.ChineseFullTokenizer.convert_tokens_to_ids">
+<code class="descname">convert_tokens_to_ids</code><span class="sig-paren">(</span><em>tokens</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/prepare/utils.html#ChineseFullTokenizer.convert_tokens_to_ids"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#prepare.utils.ChineseFullTokenizer.convert_tokens_to_ids" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="prepare.utils.ChineseFullTokenizer.tokenize">
+<code class="descname">tokenize</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/prepare/utils.html#ChineseFullTokenizer.tokenize"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#prepare.utils.ChineseFullTokenizer.tokenize" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="prepare.utils.customize_tokenizer">
+<code class="descclassname">prepare.utils.</code><code class="descname">customize_tokenizer</code><span class="sig-paren">(</span><em>text</em>, <em>do_lower_case=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/prepare/utils.html#customize_tokenizer"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#prepare.utils.customize_tokenizer" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-prepare">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-prepare" title="永久链接至标题">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Sun Yan
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

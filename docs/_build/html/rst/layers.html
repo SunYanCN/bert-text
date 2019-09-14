@@ -1,0 +1,412 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="zh" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>layers package &mdash; bert_text 0.1.0 文档</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'0.1.0',
+              LANGUAGE:'zh',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> bert_text
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">layers package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-layers.bert">layers.bert module</a></li>
+<li><a class="reference internal" href="#module-layers.bert_squad_logits_layer">layers.bert_squad_logits_layer module</a></li>
+<li><a class="reference internal" href="#module-layers.crf">layers.crf module</a></li>
+<li><a class="reference internal" href="#module-layers.layers">layers.layers module</a></li>
+<li><a class="reference internal" href="#module-layers.utils">layers.utils module</a></li>
+<li><a class="reference internal" href="#module-layers">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">bert_text</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>layers package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/rst/layers.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="layers-package">
+<h1>layers package<a class="headerlink" href="#layers-package" title="永久链接至标题">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="module-layers.bert">
+<span id="layers-bert-module"></span><h2>layers.bert module<a class="headerlink" href="#module-layers.bert" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt id="layers.bert.get_bert_model">
+<code class="descclassname">layers.bert.</code><code class="descname">get_bert_model</code><span class="sig-paren">(</span><em>vocab_size</em>, <em>max_position_embeddings</em>, <em>hidden_size</em>, <em>num_hidden_layers</em>, <em>num_attention_heads</em>, <em>intermediate_size</em>, <em>hidden_act</em>, <em>dropout_rate</em>, <em>seq2seq=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/layers/bert.html#get_bert_model"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#layers.bert.get_bert_model" title="永久链接至目标">¶</a></dt>
+<dd><p>构建跟Bert一样结构的Transformer-based模型
+如果是seq2seq=True，则进行特殊的mask，使得它可以直接用于seq2seq用途</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="layers.bert.load_pretrained_model">
+<code class="descclassname">layers.bert.</code><code class="descname">load_pretrained_model</code><span class="sig-paren">(</span><em>config_path</em>, <em>checkpoint_file</em>, <em>seq2seq=False</em>, <em>keep_words=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/layers/bert.html#load_pretrained_model"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#layers.bert.load_pretrained_model" title="永久链接至目标">¶</a></dt>
+<dd><p>根据配置文件和checkpoint文件来加载模型</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="layers.bert.load_weights_from_checkpoint">
+<code class="descclassname">layers.bert.</code><code class="descname">load_weights_from_checkpoint</code><span class="sig-paren">(</span><em>model</em>, <em>checkpoint_file</em>, <em>config</em>, <em>keep_words=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/layers/bert.html#load_weights_from_checkpoint"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#layers.bert.load_weights_from_checkpoint" title="永久链接至目标">¶</a></dt>
+<dd><p>从预训练好的checkpoint中加载权重
+keep_words是词ID组成的list，为精简Embedding层而传入</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-layers.bert_squad_logits_layer">
+<span id="layers-bert-squad-logits-layer-module"></span><h2>layers.bert_squad_logits_layer module<a class="headerlink" href="#module-layers.bert_squad_logits_layer" title="永久链接至标题">¶</a></h2>
+<dl class="class">
+<dt id="layers.bert_squad_logits_layer.BertSquadLogitsLayer">
+<em class="property">class </em><code class="descclassname">layers.bert_squad_logits_layer.</code><code class="descname">BertSquadLogitsLayer</code><span class="sig-paren">(</span><em>initializer=None</em>, <em>float_type=tf.float32</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/layers/bert_squad_logits_layer.html#BertSquadLogitsLayer"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#layers.bert_squad_logits_layer.BertSquadLogitsLayer" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">tensorflow.python.keras.engine.base_layer.Layer</span></code></p>
+<p>Returns a layer that computes custom logits for BERT squad model.</p>
+<dl class="method">
+<dt id="layers.bert_squad_logits_layer.BertSquadLogitsLayer.build">
+<code class="descname">build</code><span class="sig-paren">(</span><em>unused_input_shapes</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/layers/bert_squad_logits_layer.html#BertSquadLogitsLayer.build"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#layers.bert_squad_logits_layer.BertSquadLogitsLayer.build" title="永久链接至目标">¶</a></dt>
+<dd><p>Implements build() for the layer.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="layers.bert_squad_logits_layer.BertSquadLogitsLayer.call">
+<code class="descname">call</code><span class="sig-paren">(</span><em>inputs</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/layers/bert_squad_logits_layer.html#BertSquadLogitsLayer.call"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#layers.bert_squad_logits_layer.BertSquadLogitsLayer.call" title="永久链接至目标">¶</a></dt>
+<dd><p>Implements call() for the layer.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="layers.bert_squad_logits_layer.BertSquadLogitsLayer.loss">
+<code class="descname">loss</code><span class="sig-paren">(</span><em>y_true</em>, <em>y_pred</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/layers/bert_squad_logits_layer.html#BertSquadLogitsLayer.loss"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#layers.bert_squad_logits_layer.BertSquadLogitsLayer.loss" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-layers.crf">
+<span id="layers-crf-module"></span><h2>layers.crf module<a class="headerlink" href="#module-layers.crf" title="永久链接至标题">¶</a></h2>
+<dl class="class">
+<dt id="layers.crf.CRF">
+<em class="property">class </em><code class="descclassname">layers.crf.</code><code class="descname">CRF</code><span class="sig-paren">(</span><em>output_dim</em>, <em>mode='reg'</em>, <em>supports_masking=False</em>, <em>transitions=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/layers/crf.html#CRF"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#layers.crf.CRF" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">tensorflow.python.keras.engine.base_layer.Layer</span></code></p>
+<p>Conditional Random Field layer (tf.keras)
+<cite>CRF</cite> can be used as the last layer in a network (as a classifier). Input shape (features)
+must be equal to the number of classes the CRF can predict (a linear layer is recommended).
+Note: the loss and accuracy functions of networks using <cite>CRF</cite> must
+use the provided loss and accuracy functions (denoted as loss and viterbi_accuracy)
+as the classification of sequences are used with the layers internal weights.
+Args:</p>
+<blockquote>
+<div>output_dim (int): the number of labels to tag each temporal input.</div></blockquote>
+<dl class="docutils">
+<dt>Input shape:</dt>
+<dd>nD tensor with shape <cite>(batch_size, sentence length, num_classes)</cite>.</dd>
+<dt>Output shape:</dt>
+<dd>nD tensor with shape: <cite>(batch_size, sentence length, num_classes)</cite>.</dd>
+</dl>
+<dl class="method">
+<dt id="layers.crf.CRF.build">
+<code class="descname">build</code><span class="sig-paren">(</span><em>input_shape</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/layers/crf.html#CRF.build"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#layers.crf.CRF.build" title="永久链接至目标">¶</a></dt>
+<dd><p>Creates the variables of the layer (optional, for subclass implementers).</p>
+<p>This is a method that implementers of subclasses of <cite>Layer</cite> or <cite>Model</cite>
+can override if they need a state-creation step in-between
+layer instantiation and layer call.</p>
+<p>This is typically used to create the weights of <cite>Layer</cite> subclasses.</p>
+<dl class="docutils">
+<dt>Arguments:</dt>
+<dd><dl class="first last docutils">
+<dt>input_shape: Instance of <cite>TensorShape</cite>, or list of instances of</dt>
+<dd><cite>TensorShape</cite> if the layer expects a list of inputs
+(one instance per input).</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="layers.crf.CRF.call">
+<code class="descname">call</code><span class="sig-paren">(</span><em>inputs</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/layers/crf.html#CRF.call"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#layers.crf.CRF.call" title="永久链接至目标">¶</a></dt>
+<dd><p>This is where the layer's logic lives.</p>
+<dl class="docutils">
+<dt>Arguments:</dt>
+<dd>inputs: Input tensor, or list/tuple of input tensors.
+<a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs: Additional keyword arguments.</dd>
+<dt>Returns:</dt>
+<dd>A tensor or list/tuple of tensors.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="layers.crf.CRF.compute_output_shape">
+<code class="descname">compute_output_shape</code><span class="sig-paren">(</span><em>input_shape</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/layers/crf.html#CRF.compute_output_shape"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#layers.crf.CRF.compute_output_shape" title="永久链接至目标">¶</a></dt>
+<dd><p>Computes the output shape of the layer.</p>
+<p>Assumes that the layer will be built
+to match that input shape provided.</p>
+<dl class="docutils">
+<dt>Arguments:</dt>
+<dd><dl class="first last docutils">
+<dt>input_shape: Shape tuple (tuple of integers)</dt>
+<dd>or list of shape tuples (one per output tensor of the layer).
+Shape tuples can include None for free dimensions,
+instead of an integer.</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>An input shape tuple.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="layers.crf.CRF.get_config">
+<code class="descname">get_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/layers/crf.html#CRF.get_config"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#layers.crf.CRF.get_config" title="永久链接至目标">¶</a></dt>
+<dd><p>Returns the config of the layer.</p>
+<p>A layer config is a Python dictionary (serializable)
+containing the configuration of a layer.
+The same layer can be reinstantiated later
+(without its trained weights) from this configuration.</p>
+<p>The config of a layer does not include connectivity
+information, nor the layer class name. These are handled
+by <cite>Network</cite> (one layer of abstraction above).</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>Python dictionary.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="layers.crf.CRF.loss">
+<code class="descname">loss</code><span class="sig-paren">(</span><em>y_true</em>, <em>y_pred</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/layers/crf.html#CRF.loss"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#layers.crf.CRF.loss" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="layers.crf.CRF.viterbi_accuracy">
+<code class="descname">viterbi_accuracy</code><a class="headerlink" href="#layers.crf.CRF.viterbi_accuracy" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-layers.layers">
+<span id="layers-layers-module"></span><h2>layers.layers module<a class="headerlink" href="#module-layers.layers" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="module-layers.utils">
+<span id="layers-utils-module"></span><h2>layers.utils module<a class="headerlink" href="#module-layers.utils" title="永久链接至标题">¶</a></h2>
+<dl class="class">
+<dt id="layers.utils.SimpleTokenizer">
+<em class="property">class </em><code class="descclassname">layers.utils.</code><code class="descname">SimpleTokenizer</code><span class="sig-paren">(</span><em>token_dict</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/layers/utils.html#SimpleTokenizer"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#layers.utils.SimpleTokenizer" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(在 Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>简单的分词器，直接将文本分割为单字符序列，
+专为中文处理设计，原则上只适用于中文模型。</p>
+<dl class="method">
+<dt id="layers.utils.SimpleTokenizer.decode">
+<code class="descname">decode</code><span class="sig-paren">(</span><em>token_ids</em>, <em>join_str=''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/layers/utils.html#SimpleTokenizer.decode"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#layers.utils.SimpleTokenizer.decode" title="永久链接至目标">¶</a></dt>
+<dd><p>简单的词id序列转文本函数</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="layers.utils.SimpleTokenizer.encode">
+<code class="descname">encode</code><span class="sig-paren">(</span><em>first</em>, <em>second=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/layers/utils.html#SimpleTokenizer.encode"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#layers.utils.SimpleTokenizer.encode" title="永久链接至目标">¶</a></dt>
+<dd><p>输出文本对应token id和segment id</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="layers.utils.SimpleTokenizer.tokenize">
+<code class="descname">tokenize</code><span class="sig-paren">(</span><em>text</em>, <em>add_cls=True</em>, <em>add_sep=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/layers/utils.html#SimpleTokenizer.tokenize"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#layers.utils.SimpleTokenizer.tokenize" title="永久链接至目标">¶</a></dt>
+<dd><p>按字分割</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="layers.utils.load_vocab">
+<code class="descclassname">layers.utils.</code><code class="descname">load_vocab</code><span class="sig-paren">(</span><em>dict_path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/layers/utils.html#load_vocab"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#layers.utils.load_vocab" title="永久链接至目标">¶</a></dt>
+<dd><p>从bert的词典文件中读取词典</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-layers">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-layers" title="永久链接至标题">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Sun Yan
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

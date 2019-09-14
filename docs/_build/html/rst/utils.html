@@ -1,0 +1,468 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="zh" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>utils package &mdash; bert_text 0.1.0 文档</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'0.1.0',
+              LANGUAGE:'zh',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> bert_text
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">utils package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-utils.evaluate_utils">utils.evaluate_utils module</a></li>
+<li><a class="reference internal" href="#module-utils.gpu">utils.gpu module</a></li>
+<li><a class="reference internal" href="#module-utils.init">utils.init module</a></li>
+<li><a class="reference internal" href="#module-utils.logger">utils.logger module</a></li>
+<li><a class="reference internal" href="#module-utils.save_load">utils.save_load module</a></li>
+<li><a class="reference internal" href="#module-utils.system">utils.system module</a></li>
+<li><a class="reference internal" href="#module-utils.train_utils">utils.train_utils module</a></li>
+<li><a class="reference internal" href="#module-utils.unit_json_format">utils.unit_json_format module</a></li>
+<li><a class="reference internal" href="#module-utils">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">bert_text</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>utils package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/rst/utils.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="utils-package">
+<h1>utils package<a class="headerlink" href="#utils-package" title="永久链接至标题">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="module-utils.evaluate_utils">
+<span id="utils-evaluate-utils-module"></span><h2>utils.evaluate_utils module<a class="headerlink" href="#module-utils.evaluate_utils" title="永久链接至标题">¶</a></h2>
+<dl class="class">
+<dt id="utils.evaluate_utils.Evaluate_helper">
+<em class="property">class </em><code class="descclassname">utils.evaluate_utils.</code><code class="descname">Evaluate_helper</code><a class="reference internal" href="../_modules/utils/evaluate_utils.html#Evaluate_helper"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#utils.evaluate_utils.Evaluate_helper" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(在 Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="utils.evaluate_utils.Evaluate_helper.convert_predictions_to_answer">
+<code class="descname">convert_predictions_to_answer</code><span class="sig-paren">(</span><em>predictions</em>, <em>mode='train'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/evaluate_utils.html#Evaluate_helper.convert_predictions_to_answer"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#utils.evaluate_utils.Evaluate_helper.convert_predictions_to_answer" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="utils.evaluate_utils.Evaluate_helper.dump_answer">
+<code class="descname">dump_answer</code><span class="sig-paren">(</span><em>predictions</em>, <em>question_ids</em>, <em>mode='train'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/evaluate_utils.html#Evaluate_helper.dump_answer"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#utils.evaluate_utils.Evaluate_helper.dump_answer" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="utils.evaluate_utils.Evaluate_helper.evaluate_dev">
+<code class="descname">evaluate_dev</code><span class="sig-paren">(</span><em>answers</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/evaluate_utils.html#Evaluate_helper.evaluate_dev"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#utils.evaluate_utils.Evaluate_helper.evaluate_dev" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="utils.evaluate_utils.Evaluate_helper.evaluate_train">
+<code class="descname">evaluate_train</code><span class="sig-paren">(</span><em>answers</em>, <em>ground_truths</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/evaluate_utils.html#Evaluate_helper.evaluate_train"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#utils.evaluate_utils.Evaluate_helper.evaluate_train" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="utils.evaluate_utils.Evaluate_helper.get_answer_span">
+<code class="descname">get_answer_span</code><span class="sig-paren">(</span><em>ansBegin</em>, <em>ansEnd</em>, <em>question_ids</em>, <em>mode='train'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/evaluate_utils.html#Evaluate_helper.get_answer_span"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#utils.evaluate_utils.Evaluate_helper.get_answer_span" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="utils.evaluate_utils.Evaluate_helper.mod_convert_pred_to_answer">
+<code class="descname">mod_convert_pred_to_answer</code><span class="sig-paren">(</span><em>begin</em>, <em>end</em>, <em>return_origin=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/evaluate_utils.html#Evaluate_helper.mod_convert_pred_to_answer"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#utils.evaluate_utils.Evaluate_helper.mod_convert_pred_to_answer" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="utils.evaluate_utils.Evaluate_helper.read_data">
+<code class="descname">read_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/evaluate_utils.html#Evaluate_helper.read_data"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#utils.evaluate_utils.Evaluate_helper.read_data" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="utils.evaluate_utils.exact_match_score">
+<code class="descclassname">utils.evaluate_utils.</code><code class="descname">exact_match_score</code><span class="sig-paren">(</span><em>prediction</em>, <em>ground_truth</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/evaluate_utils.html#exact_match_score"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#utils.evaluate_utils.exact_match_score" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="utils.evaluate_utils.f1_score">
+<code class="descclassname">utils.evaluate_utils.</code><code class="descname">f1_score</code><span class="sig-paren">(</span><em>prediction</em>, <em>ground_truth</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/evaluate_utils.html#f1_score"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#utils.evaluate_utils.f1_score" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="utils.evaluate_utils.metric_max_over_ground_truths">
+<code class="descclassname">utils.evaluate_utils.</code><code class="descname">metric_max_over_ground_truths</code><span class="sig-paren">(</span><em>metric_fn</em>, <em>prediction</em>, <em>ground_truths</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/evaluate_utils.html#metric_max_over_ground_truths"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#utils.evaluate_utils.metric_max_over_ground_truths" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="utils.evaluate_utils.normalize_answer">
+<code class="descclassname">utils.evaluate_utils.</code><code class="descname">normalize_answer</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/evaluate_utils.html#normalize_answer"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#utils.evaluate_utils.normalize_answer" title="永久链接至目标">¶</a></dt>
+<dd><p>Lower text and remove punctuation, articles and extra whitespace.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-utils.gpu">
+<span id="utils-gpu-module"></span><h2>utils.gpu module<a class="headerlink" href="#module-utils.gpu" title="永久链接至标题">¶</a></h2>
+<dl class="class">
+<dt id="utils.gpu.NvidiaSMI">
+<em class="property">class </em><code class="descclassname">utils.gpu.</code><code class="descname">NvidiaSMI</code><a class="reference internal" href="../_modules/utils/gpu.html#NvidiaSMI"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#utils.gpu.NvidiaSMI" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(在 Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Process nvidia-smi output</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="utils.gpu.PIDInfo">
+<em class="property">class </em><code class="descclassname">utils.gpu.</code><code class="descname">PIDInfo</code><span class="sig-paren">(</span><em>pid</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/gpu.html#PIDInfo"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#utils.gpu.PIDInfo" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(在 Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Process ps output for certain process ID (pid)</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-utils.init">
+<span id="utils-init-module"></span><h2>utils.init module<a class="headerlink" href="#module-utils.init" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt id="utils.init.initialize_vars">
+<code class="descclassname">utils.init.</code><code class="descname">initialize_vars</code><span class="sig-paren">(</span><em>allow_growth=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/init.html#initialize_vars"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#utils.init.initialize_vars" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-utils.logger">
+<span id="utils-logger-module"></span><h2>utils.logger module<a class="headerlink" href="#module-utils.logger" title="永久链接至标题">¶</a></h2>
+<dl class="class">
+<dt id="utils.logger.Logger">
+<em class="property">class </em><code class="descclassname">utils.logger.</code><code class="descname">Logger</code><span class="sig-paren">(</span><em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/logger.html#Logger"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#utils.logger.Logger" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(在 Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="attribute">
+<dt id="utils.logger.Logger.NOLOG">
+<code class="descname">NOLOG</code><em class="property"> = 'NOLOG'</em><a class="headerlink" href="#utils.logger.Logger.NOLOG" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="utils.logger.Logger.PLACEHOLDER">
+<code class="descname">PLACEHOLDER</code><em class="property"> = '%'</em><a class="headerlink" href="#utils.logger.Logger.PLACEHOLDER" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="utils.logger.Logger.critical">
+<code class="descname">critical</code><span class="sig-paren">(</span><em>msg</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/logger.html#Logger.critical"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#utils.logger.Logger.critical" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="utils.logger.Logger.debug">
+<code class="descname">debug</code><span class="sig-paren">(</span><em>msg</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/logger.html#Logger.debug"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#utils.logger.Logger.debug" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="utils.logger.Logger.error">
+<code class="descname">error</code><span class="sig-paren">(</span><em>msg</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/logger.html#Logger.error"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#utils.logger.Logger.error" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="utils.logger.Logger.getLevel">
+<code class="descname">getLevel</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/logger.html#Logger.getLevel"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#utils.logger.Logger.getLevel" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="utils.logger.Logger.info">
+<code class="descname">info</code><span class="sig-paren">(</span><em>msg</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/logger.html#Logger.info"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#utils.logger.Logger.info" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="utils.logger.Logger.setLevel">
+<code class="descname">setLevel</code><span class="sig-paren">(</span><em>logLevel</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/logger.html#Logger.setLevel"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#utils.logger.Logger.setLevel" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="utils.logger.Logger.warning">
+<code class="descname">warning</code><span class="sig-paren">(</span><em>msg</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/logger.html#Logger.warning"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#utils.logger.Logger.warning" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-utils.save_load">
+<span id="utils-save-load-module"></span><h2>utils.save_load module<a class="headerlink" href="#module-utils.save_load" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt id="utils.save_load.save_h5_model">
+<code class="descclassname">utils.save_load.</code><code class="descname">save_h5_model</code><span class="sig-paren">(</span><em>model</em>, <em>saved_model_path='saved_models'</em>, <em>model_name='model.h5'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/save_load.html#save_h5_model"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#utils.save_load.save_h5_model" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-utils.system">
+<span id="utils-system-module"></span><h2>utils.system module<a class="headerlink" href="#module-utils.system" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt id="utils.system.kill_process_by_name">
+<code class="descclassname">utils.system.</code><code class="descname">kill_process_by_name</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/system.html#kill_process_by_name"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#utils.system.kill_process_by_name" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="utils.system.monitor_system_and_save">
+<code class="descclassname">utils.system.</code><code class="descname">monitor_system_and_save</code><span class="sig-paren">(</span><em>filename='glances.csv'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/system.html#monitor_system_and_save"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#utils.system.monitor_system_and_save" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="utils.system.plot_result">
+<code class="descclassname">utils.system.</code><code class="descname">plot_result</code><span class="sig-paren">(</span><em>filename='glances.csv'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/system.html#plot_result"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#utils.system.plot_result" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="utils.system.run_glances">
+<code class="descclassname">utils.system.</code><code class="descname">run_glances</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/system.html#run_glances"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#utils.system.run_glances" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-utils.train_utils">
+<span id="utils-train-utils-module"></span><h2>utils.train_utils module<a class="headerlink" href="#module-utils.train_utils" title="永久链接至标题">¶</a></h2>
+<dl class="class">
+<dt id="utils.train_utils.BatchGenerator">
+<em class="property">class </em><code class="descclassname">utils.train_utils.</code><code class="descname">BatchGenerator</code><span class="sig-paren">(</span><em>inputs</em>, <em>labels</em>, <em>shuffle=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/train_utils.html#BatchGenerator"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#utils.train_utils.BatchGenerator" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(在 Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="attribute">
+<dt id="utils.train_utils.BatchGenerator.epochs_completed">
+<code class="descname">epochs_completed</code><a class="headerlink" href="#utils.train_utils.BatchGenerator.epochs_completed" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="utils.train_utils.BatchGenerator.next_batch">
+<code class="descname">next_batch</code><span class="sig-paren">(</span><em>batch_size</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/train_utils.html#BatchGenerator.next_batch"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#utils.train_utils.BatchGenerator.next_batch" title="永久链接至目标">¶</a></dt>
+<dd><p>Return the next 'batch_size' examples from this data set.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="utils.train_utils.BatchGenerator.num_examples">
+<code class="descname">num_examples</code><a class="headerlink" href="#utils.train_utils.BatchGenerator.num_examples" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="utils.train_utils.Trainer_helper">
+<em class="property">class </em><code class="descclassname">utils.train_utils.</code><code class="descname">Trainer_helper</code><span class="sig-paren">(</span><em>model</em>, <em>log_dir='./logs/'</em>, <em>bst_model_path='./model/squad_rnet.hdf5'</em>, <em>output_name='./'</em>, <em>evaluate_helper=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/train_utils.html#Trainer_helper"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#utils.train_utils.Trainer_helper" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(在 Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="utils.train_utils.Trainer_helper.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>train_x</em>, <em>train_y</em>, <em>valid_x</em>, <em>valid_y</em>, <em>n_epoch</em>, <em>batch_size=1</em>, <em>dev_batch_size=10</em>, <em>early_stop=1</em>, <em>verbose_train=200</em>, <em>is_save_intermediate=False</em>, <em>save_epoch=False</em>, <em>adjust_lr=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/train_utils.html#Trainer_helper.fit"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#utils.train_utils.Trainer_helper.fit" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="utils.train_utils.Trainer_helper.save_logs">
+<code class="descname">save_logs</code><span class="sig-paren">(</span><em>em</em>, <em>f1</em>, <em>i</em>, <em>mode='train'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/train_utils.html#Trainer_helper.save_logs"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#utils.train_utils.Trainer_helper.save_logs" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="utils.train_utils.Trainer_helper.set_train_generator">
+<code class="descname">set_train_generator</code><span class="sig-paren">(</span><em>gen=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/train_utils.html#Trainer_helper.set_train_generator"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#utils.train_utils.Trainer_helper.set_train_generator" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="utils.train_utils.Trainer_helper.set_valid_generator">
+<code class="descname">set_valid_generator</code><span class="sig-paren">(</span><em>gen=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/train_utils.html#Trainer_helper.set_valid_generator"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#utils.train_utils.Trainer_helper.set_valid_generator" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="utils.train_utils.batch_generator">
+<code class="descclassname">utils.train_utils.</code><code class="descname">batch_generator</code><span class="sig-paren">(</span><em>inputs</em>, <em>labels</em>, <em>shuffle=False</em>, <em>batch_size=10</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/train_utils.html#batch_generator"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#utils.train_utils.batch_generator" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-utils.unit_json_format">
+<span id="utils-unit-json-format-module"></span><h2>utils.unit_json_format module<a class="headerlink" href="#module-utils.unit_json_format" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt id="utils.unit_json_format.dict_generator">
+<code class="descclassname">utils.unit_json_format.</code><code class="descname">dict_generator</code><span class="sig-paren">(</span><em>indict</em>, <em>pre=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/unit_json_format.html#dict_generator"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#utils.unit_json_format.dict_generator" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="utils.unit_json_format.unit_format">
+<code class="descclassname">utils.unit_json_format.</code><code class="descname">unit_format</code><span class="sig-paren">(</span><em>josn_file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/unit_json_format.html#unit_format"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#utils.unit_json_format.unit_format" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-utils">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-utils" title="永久链接至标题">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Sun Yan
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

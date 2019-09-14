@@ -1,0 +1,404 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="zh" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>utils.evaluate_utils &mdash; bert_text 0.1.0 文档</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../../',
+              VERSION:'0.1.0',
+              LANGUAGE:'zh',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> bert_text
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">bert_text</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">模块代码</a> &raquo;</li>
+        
+      <li>utils.evaluate_utils</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>utils.evaluate_utils 源代码</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">string</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">Counter</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+
+<span class="c1"># class Evaluate_helper(object):</span>
+<span class="c1">#</span>
+
+
+<div class="viewcode-block" id="normalize_answer"><a class="viewcode-back" href="../../rst/utils.html#utils.evaluate_utils.normalize_answer">[文档]</a><span class="k">def</span> <span class="nf">normalize_answer</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Lower text and remove punctuation, articles and extra whitespace.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">remove_articles</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\b(a|an|the)\b&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">white_space_fix</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">remove_punc</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+        <span class="n">exclude</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">punctuation</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ch</span> <span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="n">text</span> <span class="k">if</span> <span class="n">ch</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">exclude</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">lower</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">white_space_fix</span><span class="p">(</span><span class="n">remove_articles</span><span class="p">(</span><span class="n">remove_punc</span><span class="p">(</span><span class="n">lower</span><span class="p">(</span><span class="n">s</span><span class="p">))))</span></div>
+
+
+<div class="viewcode-block" id="f1_score"><a class="viewcode-back" href="../../rst/utils.html#utils.evaluate_utils.f1_score">[文档]</a><span class="k">def</span> <span class="nf">f1_score</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">):</span>
+    <span class="n">prediction_tokens</span> <span class="o">=</span> <span class="n">normalize_answer</span><span class="p">(</span><span class="n">prediction</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="n">ground_truth_tokens</span> <span class="o">=</span> <span class="n">normalize_answer</span><span class="p">(</span><span class="n">ground_truth</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="n">common</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">prediction_tokens</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">Counter</span><span class="p">(</span><span class="n">ground_truth_tokens</span><span class="p">)</span>
+    <span class="n">num_same</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">common</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">num_same</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="n">precision</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">num_same</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">prediction_tokens</span><span class="p">)</span>
+    <span class="n">recall</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">num_same</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">ground_truth_tokens</span><span class="p">)</span>
+    <span class="n">f1</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">precision</span> <span class="o">*</span> <span class="n">recall</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">precision</span> <span class="o">+</span> <span class="n">recall</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">f1</span></div>
+
+
+<div class="viewcode-block" id="exact_match_score"><a class="viewcode-back" href="../../rst/utils.html#utils.evaluate_utils.exact_match_score">[文档]</a><span class="k">def</span> <span class="nf">exact_match_score</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">normalize_answer</span><span class="p">(</span><span class="n">prediction</span><span class="p">)</span> <span class="o">==</span> <span class="n">normalize_answer</span><span class="p">(</span><span class="n">ground_truth</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="metric_max_over_ground_truths"><a class="viewcode-back" href="../../rst/utils.html#utils.evaluate_utils.metric_max_over_ground_truths">[文档]</a><span class="k">def</span> <span class="nf">metric_max_over_ground_truths</span><span class="p">(</span><span class="n">metric_fn</span><span class="p">,</span> <span class="n">prediction</span><span class="p">,</span> <span class="n">ground_truths</span><span class="p">):</span>
+    <span class="n">scores_for_ground_truths</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">ground_truth</span> <span class="ow">in</span> <span class="n">ground_truths</span><span class="p">:</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="n">metric_fn</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">)</span>
+        <span class="n">scores_for_ground_truths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">scores_for_ground_truths</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Evaluate_helper"><a class="viewcode-back" href="../../rst/utils.html#utils.evaluate_utils.Evaluate_helper">[文档]</a><span class="k">class</span> <span class="nc">Evaluate_helper</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Evaluate_helper.read_data"><a class="viewcode-back" href="../../rst/utils.html#utils.evaluate_utils.Evaluate_helper.read_data">[文档]</a>    <span class="k">def</span> <span class="nf">read_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">devContexOrigin</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;./input/&#39;</span> <span class="o">+</span> <span class="s1">&#39;dev&#39;</span> <span class="o">+</span> <span class="s1">&#39;_id2orign_context.pkl&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">devToken2Char</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;./input/&#39;</span> <span class="o">+</span> <span class="s1">&#39;dev&#39;</span> <span class="o">+</span> <span class="s1">&#39;_id2token2char.pkl&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">devContext</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;./input/&#39;</span> <span class="o">+</span> <span class="s1">&#39;dev&#39;</span> <span class="o">+</span> <span class="s1">&#39;_id2context.pkl&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">trContexOrigin</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;./input/&#39;</span> <span class="o">+</span> <span class="s1">&#39;train&#39;</span> <span class="o">+</span> <span class="s1">&#39;_id2orign_context.pkl&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">trToken2Char</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;./input/&#39;</span> <span class="o">+</span> <span class="s1">&#39;train&#39;</span> <span class="o">+</span> <span class="s1">&#39;_id2token2char.pkl&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">trContext</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;./input/&#39;</span> <span class="o">+</span> <span class="s1">&#39;train&#39;</span> <span class="o">+</span> <span class="s1">&#39;_id2context.pkl&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Evaluate_helper.convert_predictions_to_answer"><a class="viewcode-back" href="../../rst/utils.html#utils.evaluate_utils.Evaluate_helper.convert_predictions_to_answer">[文档]</a>    <span class="k">def</span> <span class="nf">convert_predictions_to_answer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">predictions</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;train&#39;</span><span class="p">):</span>
+        <span class="c1"># print(predictions[0].shape, predictions[1].shape)</span>
+        <span class="c1"># make class prediction</span>
+        <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;train&#39;</span><span class="p">:</span>
+            <span class="n">ansBegin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">predictions</span><span class="p">[</span><span class="mi">0</span><span class="p">]),),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+            <span class="n">ansEnd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">predictions</span><span class="p">[</span><span class="mi">0</span><span class="p">]),),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">predictions</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
+                <span class="n">ansBegin</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">predictions</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span>
+                <span class="n">ansEnd</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">predictions</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span>
+                <span class="c1"># print(ansBegin.min(), ansBegin.max(), ansEnd.min(), ansEnd.max())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ansBegin</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># np.zeros((len(question_ids),), dtype=np.int32)</span>
+            <span class="n">ansEnd</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># np.zeros((len(question_ids),), dtype=np.int32)</span>
+            <span class="k">for</span> <span class="n">st</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">predictions</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">predictions</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">st</span><span class="p">])):</span>
+                    <span class="n">begin</span> <span class="o">=</span> <span class="n">predictions</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">st</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span>
+                    <span class="n">end</span> <span class="o">=</span> <span class="n">predictions</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">st</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">begin</span> <span class="o">&lt;=</span> <span class="n">end</span><span class="p">:</span>
+                        <span class="n">ansBegin</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">begin</span><span class="p">)</span>
+                        <span class="n">ansEnd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">end</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">mod_begin</span><span class="p">,</span> <span class="n">mod_end</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mod_convert_pred_to_answer</span><span class="p">(</span><span class="n">predictions</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">st</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span>
+                                                                             <span class="n">predictions</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">st</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="p">:])</span>
+                        <span class="n">ansBegin</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mod_begin</span><span class="p">)</span>
+                        <span class="n">ansEnd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mod_end</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">ansBegin</span><span class="p">,</span> <span class="n">ansEnd</span></div>
+
+<div class="viewcode-block" id="Evaluate_helper.mod_convert_pred_to_answer"><a class="viewcode-back" href="../../rst/utils.html#utils.evaluate_utils.Evaluate_helper.mod_convert_pred_to_answer">[文档]</a>    <span class="k">def</span> <span class="nf">mod_convert_pred_to_answer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">begin</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">return_origin</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="c1"># modified version of function &quot;convert_predictions_to_answer&quot;</span>
+        <span class="c1"># when meeting ansBegin</span>
+        <span class="k">if</span> <span class="n">return_origin</span><span class="p">:</span>
+            <span class="n">ori_begin</span> <span class="o">=</span> <span class="n">begin</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span>
+            <span class="n">ori_end</span> <span class="o">=</span> <span class="n">end</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span>
+
+        <span class="n">begin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">begin</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">end</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">conf</span> <span class="o">=</span> <span class="n">begin</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">end</span><span class="p">)</span>
+
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">conf</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">indices</span><span class="p">(</span><span class="n">mask</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="n">mask</span><span class="p">[</span><span class="n">i</span> <span class="o">&lt;=</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="n">conf</span> <span class="o">*=</span> <span class="n">mask</span>
+        <span class="n">number</span> <span class="o">=</span> <span class="n">conf</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span>
+        <span class="n">mod_start</span> <span class="o">=</span> <span class="n">number</span> <span class="o">//</span> <span class="n">conf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">mod_end</span> <span class="o">=</span> <span class="n">number</span> <span class="o">%</span> <span class="n">conf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">return_origin</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">mod_start</span><span class="p">,</span> <span class="n">mod_end</span><span class="p">,</span> <span class="n">ori_begin</span><span class="p">,</span> <span class="n">ori_end</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">mod_start</span><span class="p">,</span> <span class="n">mod_end</span></div>
+
+<div class="viewcode-block" id="Evaluate_helper.get_answer_span"><a class="viewcode-back" href="../../rst/utils.html#utils.evaluate_utils.Evaluate_helper.get_answer_span">[文档]</a>    <span class="k">def</span> <span class="nf">get_answer_span</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ansBegin</span><span class="p">,</span> <span class="n">ansEnd</span><span class="p">,</span> <span class="n">question_ids</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;train&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;train&#39;</span><span class="p">:</span>
+            <span class="n">devContext</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trContext</span>
+            <span class="n">devContexOrigin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trContexOrigin</span>
+            <span class="n">devToken2Char</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trToken2Char</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">devContext</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">devContext</span>
+            <span class="n">devContexOrigin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">devContexOrigin</span>
+            <span class="n">devToken2Char</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">devToken2Char</span>
+        <span class="n">answers</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="nb">id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">question_ids</span><span class="p">):</span>
+            <span class="c1"># print i</span>
+            <span class="k">if</span> <span class="n">ansBegin</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">devContext</span><span class="p">[</span><span class="nb">id</span><span class="p">]):</span>
+                <span class="n">answers</span><span class="p">[</span><span class="n">question_ids</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="k">elif</span> <span class="n">ansEnd</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">devContext</span><span class="p">[</span><span class="nb">id</span><span class="p">]):</span>
+                <span class="n">answers</span><span class="p">[</span><span class="n">question_ids</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">devContexOrigin</span><span class="p">[</span><span class="nb">id</span><span class="p">][</span><span class="n">devToken2Char</span><span class="p">[</span><span class="nb">id</span><span class="p">][</span><span class="n">ansBegin</span><span class="p">[</span><span class="n">i</span><span class="p">]]:]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">answers</span><span class="p">[</span><span class="n">question_ids</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">devContexOrigin</span><span class="p">[</span><span class="nb">id</span><span class="p">][</span>
+                                           <span class="n">devToken2Char</span><span class="p">[</span><span class="nb">id</span><span class="p">][</span><span class="n">ansBegin</span><span class="p">[</span><span class="n">i</span><span class="p">]]:</span><span class="n">devToken2Char</span><span class="p">[</span><span class="nb">id</span><span class="p">][</span><span class="n">ansEnd</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span>
+                                               <span class="n">devContext</span><span class="p">[</span><span class="nb">id</span><span class="p">][</span><span class="n">ansEnd</span><span class="p">[</span><span class="n">i</span><span class="p">]])]</span>  <span class="c1"># get span</span>
+        <span class="k">return</span> <span class="n">answers</span></div>
+
+<div class="viewcode-block" id="Evaluate_helper.dump_answer"><a class="viewcode-back" href="../../rst/utils.html#utils.evaluate_utils.Evaluate_helper.dump_answer">[文档]</a>    <span class="k">def</span> <span class="nf">dump_answer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">predictions</span><span class="p">,</span> <span class="n">question_ids</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;train&#39;</span><span class="p">):</span>
+        <span class="n">ansBegin</span><span class="p">,</span> <span class="n">ansEnd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_predictions_to_answer</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+        <span class="n">answers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_answer_span</span><span class="p">(</span><span class="n">ansBegin</span><span class="p">,</span> <span class="n">ansEnd</span><span class="p">,</span> <span class="n">question_ids</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">answers</span></div>
+
+<div class="viewcode-block" id="Evaluate_helper.evaluate_dev"><a class="viewcode-back" href="../../rst/utils.html#utils.evaluate_utils.Evaluate_helper.evaluate_dev">[文档]</a>    <span class="k">def</span> <span class="nf">evaluate_dev</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">answers</span><span class="p">):</span>
+        <span class="c1"># Since some question ask multi times</span>
+        <span class="n">expected_version</span> <span class="o">=</span> <span class="s1">&#39;1.1&#39;</span>
+        <span class="n">dataset_file</span> <span class="o">=</span> <span class="s1">&#39;./data/dev-v1.1.json&#39;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">dataset_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">dataset_file</span><span class="p">:</span>
+            <span class="n">dataset_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">dataset_file</span><span class="p">)</span>
+            <span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset_json</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+        <span class="n">f1</span> <span class="o">=</span> <span class="n">exact_match</span> <span class="o">=</span> <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">article</span> <span class="ow">in</span> <span class="n">dataset</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">paragraph</span> <span class="ow">in</span> <span class="n">article</span><span class="p">[</span><span class="s1">&#39;paragraphs&#39;</span><span class="p">]:</span>
+                <span class="k">for</span> <span class="n">qa</span> <span class="ow">in</span> <span class="n">paragraph</span><span class="p">[</span><span class="s1">&#39;qas&#39;</span><span class="p">]:</span>
+                    <span class="n">total</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="k">if</span> <span class="n">qa</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">answers</span><span class="p">:</span>
+                        <span class="n">message</span> <span class="o">=</span> <span class="s1">&#39;Unanswered question &#39;</span> <span class="o">+</span> <span class="n">qa</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">+</span> \
+                                  <span class="s1">&#39; will receive score 0.&#39;</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+                        <span class="k">continue</span>
+                    <span class="n">ground_truths</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">],</span> <span class="n">qa</span><span class="p">[</span><span class="s1">&#39;answers&#39;</span><span class="p">]))</span>
+                    <span class="n">prediction</span> <span class="o">=</span> <span class="n">answers</span><span class="p">[</span><span class="n">qa</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]]</span>
+                    <span class="n">exact_match</span> <span class="o">+=</span> <span class="n">metric_max_over_ground_truths</span><span class="p">(</span>
+                        <span class="n">exact_match_score</span><span class="p">,</span> <span class="n">prediction</span><span class="p">,</span> <span class="n">ground_truths</span><span class="p">)</span>
+                    <span class="n">f1</span> <span class="o">+=</span> <span class="n">metric_max_over_ground_truths</span><span class="p">(</span>
+                        <span class="n">f1_score</span><span class="p">,</span> <span class="n">prediction</span><span class="p">,</span> <span class="n">ground_truths</span><span class="p">)</span>
+
+        <span class="n">exact_match</span> <span class="o">=</span> <span class="mf">100.0</span> <span class="o">*</span> <span class="n">exact_match</span> <span class="o">/</span> <span class="n">total</span>
+        <span class="n">f1</span> <span class="o">=</span> <span class="mf">100.0</span> <span class="o">*</span> <span class="n">f1</span> <span class="o">/</span> <span class="n">total</span>
+        <span class="k">return</span> <span class="n">exact_match</span><span class="p">,</span> <span class="n">f1</span></div>
+
+<div class="viewcode-block" id="Evaluate_helper.evaluate_train"><a class="viewcode-back" href="../../rst/utils.html#utils.evaluate_utils.Evaluate_helper.evaluate_train">[文档]</a>    <span class="k">def</span> <span class="nf">evaluate_train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">answers</span><span class="p">,</span> <span class="n">ground_truths</span><span class="p">):</span>
+        <span class="n">f1</span> <span class="o">=</span> <span class="n">exact_match</span> <span class="o">=</span> <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">qid</span><span class="p">,</span> <span class="n">pred_answers</span> <span class="ow">in</span> <span class="n">answers</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">total</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">groud_truth</span> <span class="o">=</span> <span class="n">ground_truths</span><span class="p">[</span><span class="n">qid</span><span class="p">]</span>
+            <span class="n">exact_match</span> <span class="o">+=</span> <span class="n">metric_max_over_ground_truths</span><span class="p">(</span>
+                <span class="n">exact_match_score</span><span class="p">,</span> <span class="n">pred_answers</span><span class="p">,</span> <span class="p">[</span><span class="n">groud_truth</span><span class="p">])</span>
+            <span class="n">f1</span> <span class="o">+=</span> <span class="n">metric_max_over_ground_truths</span><span class="p">(</span>
+                <span class="n">f1_score</span><span class="p">,</span> <span class="n">pred_answers</span><span class="p">,</span> <span class="p">[</span><span class="n">groud_truth</span><span class="p">])</span>
+        <span class="n">exact_match</span> <span class="o">=</span> <span class="mf">100.0</span> <span class="o">*</span> <span class="n">exact_match</span> <span class="o">/</span> <span class="n">total</span>
+        <span class="n">f1</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">f1</span> <span class="o">/</span> <span class="n">total</span>
+        <span class="k">return</span> <span class="n">exact_match</span><span class="p">,</span> <span class="n">f1</span></div></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">expected_version</span> <span class="o">=</span> <span class="s1">&#39;1.1&#39;</span>
+    <span class="n">dataset_file</span> <span class="o">=</span> <span class="s1">&#39;./data/dev-v1.1.json&#39;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">dataset_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">dataset_file</span><span class="p">:</span>
+        <span class="n">dataset_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">dataset_file</span><span class="p">)</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset_json</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+
+    <span class="n">prediction_file</span> <span class="o">=</span> <span class="s1">&#39;./output/dynamitic_attention_enhanced_model__dev-prediction.json&#39;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">prediction_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">prediction_file</span><span class="p">:</span>
+        <span class="n">predictions</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">prediction_file</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">evaluate</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">predictions</span><span class="p">)))</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Sun Yan
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

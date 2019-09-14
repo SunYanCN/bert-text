@@ -1,0 +1,458 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="zh" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>utils.train_utils &mdash; bert_text 0.1.0 文档</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../../',
+              VERSION:'0.1.0',
+              LANGUAGE:'zh',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> bert_text
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">bert_text</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">模块代码</a> &raquo;</li>
+        
+      <li>utils.train_utils</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>utils.train_utils 源代码</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="k">import</span> <span class="n">tqdm</span>
+
+
+<div class="viewcode-block" id="batch_generator"><a class="viewcode-back" href="../../rst/utils.html#utils.train_utils.batch_generator">[文档]</a><span class="k">def</span> <span class="nf">batch_generator</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">unique_ids</span><span class="p">,</span> <span class="n">input_ids</span><span class="p">,</span> <span class="n">input_masks</span><span class="p">,</span> <span class="n">segment_ids</span> <span class="o">=</span> <span class="n">inputs</span>
+    <span class="n">start_positions</span><span class="p">,</span> <span class="n">end_positions</span> <span class="o">=</span> <span class="n">labels</span>
+
+    <span class="n">number_examples</span> <span class="o">=</span> <span class="n">unique_ids</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">shuffle</span><span class="p">:</span>
+            <span class="n">new_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">number_examples</span><span class="p">)</span>
+            <span class="n">unique_ids</span> <span class="o">=</span> <span class="n">unique_ids</span><span class="p">[</span><span class="n">new_index</span><span class="p">]</span>
+            <span class="n">input_ids</span> <span class="o">=</span> <span class="n">input_ids</span><span class="p">[</span><span class="n">new_index</span><span class="p">]</span>
+            <span class="n">input_masks</span> <span class="o">=</span> <span class="n">input_masks</span><span class="p">[</span><span class="n">new_index</span><span class="p">]</span>
+            <span class="n">segment_ids</span> <span class="o">=</span> <span class="n">segment_ids</span><span class="p">[</span><span class="n">new_index</span><span class="p">]</span>
+            <span class="n">start_positions</span> <span class="o">=</span> <span class="n">start_positions</span><span class="p">[</span><span class="n">new_index</span><span class="p">]</span>
+            <span class="n">end_positions</span> <span class="o">=</span> <span class="n">end_positions</span><span class="p">[</span><span class="n">new_index</span><span class="p">]</span>
+
+        <span class="n">batch_num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">number_examples</span> <span class="o">/</span> <span class="n">batch_size</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">batch_num</span><span class="p">):</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">batch</span> <span class="o">*</span> <span class="n">batch_size</span>
+            <span class="n">end</span> <span class="o">=</span> <span class="nb">min</span><span class="p">((</span><span class="n">batch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">number_examples</span><span class="p">)</span>
+
+            <span class="n">batch_inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">unique_ids</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">],</span> <span class="n">input_ids</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">],</span> <span class="n">input_masks</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">],</span> <span class="n">segment_ids</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]]</span>
+            <span class="n">batch_labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">start_positions</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">],</span> <span class="n">end_positions</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]]</span>
+
+            <span class="k">yield</span> <span class="n">batch_inputs</span><span class="p">,</span> <span class="n">batch_labels</span></div>
+
+
+<div class="viewcode-block" id="BatchGenerator"><a class="viewcode-back" href="../../rst/utils.html#utils.train_utils.BatchGenerator">[文档]</a><span class="k">class</span> <span class="nc">BatchGenerator</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_unique_ids</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_ids</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_masks</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_segment_ids</span> <span class="o">=</span> <span class="n">inputs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_start_positions</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_end_positions</span> <span class="o">=</span> <span class="n">labels</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_epochs_completed</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_index_in_epoch</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_number_examples</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unique_ids</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_shuffle</span> <span class="o">=</span> <span class="n">shuffle</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shuffle</span><span class="p">:</span>
+            <span class="n">new_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_number_examples</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_unique_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unique_ids</span><span class="p">[</span><span class="n">new_index</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_input_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_ids</span><span class="p">[</span><span class="n">new_index</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_input_masks</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_masks</span><span class="p">[</span><span class="n">new_index</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_segment_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_segment_ids</span><span class="p">[</span><span class="n">new_index</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_start_positions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_start_positions</span><span class="p">[</span><span class="n">new_index</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_end_positions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_end_positions</span><span class="p">[</span><span class="n">new_index</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">num_examples</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_number_examples</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">epochs_completed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_epochs_completed</span>
+
+<div class="viewcode-block" id="BatchGenerator.next_batch"><a class="viewcode-back" href="../../rst/utils.html#utils.train_utils.BatchGenerator.next_batch">[文档]</a>    <span class="k">def</span> <span class="nf">next_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return the next &#39;batch_size&#39; examples from this data set.&quot;&quot;&quot;</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index_in_epoch</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_index_in_epoch</span> <span class="o">+=</span> <span class="n">batch_size</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index_in_epoch</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_number_examples</span><span class="p">:</span>
+            <span class="c1"># finished epoch</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_epochs_completed</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="c1"># Shuffle the data</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shuffle</span><span class="p">:</span>
+                <span class="n">new_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_number_examples</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_unique_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unique_ids</span><span class="p">[</span><span class="n">new_index</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_input_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_ids</span><span class="p">[</span><span class="n">new_index</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_input_masks</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_masks</span><span class="p">[</span><span class="n">new_index</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_segment_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_segment_ids</span><span class="p">[</span><span class="n">new_index</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_start_positions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_start_positions</span><span class="p">[</span><span class="n">new_index</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_end_positions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_end_positions</span><span class="p">[</span><span class="n">new_index</span><span class="p">]</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_index_in_epoch</span> <span class="o">=</span> <span class="n">batch_size</span>
+            <span class="k">assert</span> <span class="n">batch_size</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_number_examples</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index_in_epoch</span>
+
+        <span class="n">batch_inputs</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_unique_ids</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_ids</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_masks</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">],</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_segment_ids</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]]</span>
+        <span class="n">batch_labels</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_start_positions</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_end_positions</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">batch_inputs</span><span class="p">,</span> <span class="n">batch_labels</span></div></div>
+
+
+<div class="viewcode-block" id="Trainer_helper"><a class="viewcode-back" href="../../rst/utils.html#utils.train_utils.Trainer_helper">[文档]</a><span class="k">class</span> <span class="nc">Trainer_helper</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">log_dir</span><span class="o">=</span><span class="s1">&#39;./logs/&#39;</span><span class="p">,</span> <span class="n">bst_model_path</span><span class="o">=</span><span class="s1">&#39;./model/squad_rnet.hdf5&#39;</span><span class="p">,</span> <span class="n">output_name</span><span class="o">=</span><span class="s1">&#39;./&#39;</span><span class="p">,</span>
+                 <span class="n">evaluate_helper</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">       :param model:</span>
+<span class="sd">       :param log_dir:  log path</span>
+<span class="sd">       :param bst_model_path: model path</span>
+<span class="sd">       :param output_name: prediction save path</span>
+<span class="sd">       :param evaluate_helper:  evaluater helper for evaluate train on batch and dev data</span>
+<span class="sd">       &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">log_dir</span><span class="p">)</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">log_dir</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bst_model_path</span> <span class="o">=</span> <span class="n">bst_model_path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_name</span> <span class="o">=</span> <span class="n">output_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tf_train_writer</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">FileWriter</span><span class="p">(</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">log_dir</span><span class="p">,</span> <span class="s1">&#39;train&#39;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tf_test_writer</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">FileWriter</span><span class="p">(</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">log_dir</span><span class="p">,</span> <span class="s1">&#39;dev&#39;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_train_generator</span><span class="p">()</span>  <span class="c1"># default</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_valid_generator</span><span class="p">()</span>  <span class="c1"># default</span>
+        <span class="c1"># self.evaluate_helper = Evaluate_helper()</span>
+        <span class="c1"># self.train_groud_truth = pd.read_pickle(&#39;./input/train_id2answer.pkl&#39;)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_save_intemediate</span> <span class="o">=</span> <span class="kc">False</span>
+
+<div class="viewcode-block" id="Trainer_helper.set_train_generator"><a class="viewcode-back" href="../../rst/utils.html#utils.train_utils.Trainer_helper.set_train_generator">[文档]</a>    <span class="k">def</span> <span class="nf">set_train_generator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gen</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">gen</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tr_gen</span> <span class="o">=</span> <span class="n">gen</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tr_gen</span> <span class="o">=</span> <span class="n">BatchGenerator</span></div>
+
+<div class="viewcode-block" id="Trainer_helper.set_valid_generator"><a class="viewcode-back" href="../../rst/utils.html#utils.train_utils.Trainer_helper.set_valid_generator">[文档]</a>    <span class="k">def</span> <span class="nf">set_valid_generator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gen</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">gen</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">te_gen</span> <span class="o">=</span> <span class="n">gen</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">te_gen</span> <span class="o">=</span> <span class="n">BatchGenerator</span></div>
+
+<div class="viewcode-block" id="Trainer_helper.save_logs"><a class="viewcode-back" href="../../rst/utils.html#utils.train_utils.Trainer_helper.save_logs">[文档]</a>    <span class="k">def</span> <span class="nf">save_logs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">em</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;train&#39;</span><span class="p">):</span>
+        <span class="n">logs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Extract_Match&#39;</span><span class="p">:</span> <span class="n">em</span><span class="p">,</span> <span class="s1">&#39;F1&#39;</span><span class="p">:</span> <span class="n">f1</span><span class="p">}</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">logs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">summary</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Summary</span><span class="p">()</span>
+            <span class="n">summary_value</span> <span class="o">=</span> <span class="n">summary</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+            <span class="n">summary_value</span><span class="o">.</span><span class="n">simple_value</span> <span class="o">=</span> <span class="n">value</span>
+            <span class="n">summary_value</span><span class="o">.</span><span class="n">tag</span> <span class="o">=</span> <span class="n">name</span>
+            <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;train&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">tf_train_writer</span><span class="o">.</span><span class="n">add_summary</span><span class="p">(</span><span class="n">summary</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">tf_test_writer</span><span class="o">.</span><span class="n">add_summary</span><span class="p">(</span><span class="n">summary</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;train&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tf_train_writer</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tf_test_writer</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Trainer_helper.fit"><a class="viewcode-back" href="../../rst/utils.html#utils.train_utils.Trainer_helper.fit">[文档]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">valid_x</span><span class="p">,</span> <span class="n">valid_y</span><span class="p">,</span>
+            <span class="n">n_epoch</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dev_batch_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">early_stop</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">verbose_train</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">is_save_intermediate</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">save_epoch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">adjust_lr</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+        <span class="n">best_em</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">best_f1</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">early_stop_step</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_epoch</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Epoch Completed&quot;</span><span class="p">):</span>
+            <span class="n">tr_gen</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tr_gen</span><span class="p">(</span><span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">steps_per_epoch</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">train_x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">batch_size</span><span class="p">)))</span>
+
+            <span class="n">loss</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">answer_start_loss</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">answer_end_loss</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">answer_start_acc</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">answer_end_acc</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">cnt</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">cnt_tr</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">em_tr</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">f1_tr</span> <span class="o">=</span> <span class="mi">0</span>
+
+            <span class="k">for</span> <span class="n">X_batch</span><span class="p">,</span> <span class="n">Y_batch</span> <span class="ow">in</span> <span class="n">tr_gen</span><span class="o">.</span><span class="n">next_batch</span><span class="p">(</span><span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">):</span>
+                <span class="c1"># X_ids = X_batch[0]</span>
+
+                <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">train_on_batch</span><span class="p">(</span><span class="n">X_batch</span><span class="p">,</span> <span class="n">Y_batch</span><span class="p">)</span>
+                <span class="n">element_cnt</span> <span class="o">=</span> <span class="n">X_batch</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">loss</span> <span class="o">+=</span> <span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">element_cnt</span>
+                <span class="n">answer_start_loss</span> <span class="o">+=</span> <span class="n">val</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">element_cnt</span>
+                <span class="n">answer_end_loss</span> <span class="o">+=</span> <span class="n">val</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">element_cnt</span>
+                <span class="n">answer_start_acc</span> <span class="o">+=</span> <span class="n">val</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">element_cnt</span>
+                <span class="n">answer_end_acc</span> <span class="o">+=</span> <span class="n">val</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">*</span> <span class="n">element_cnt</span>
+                <span class="n">cnt</span> <span class="o">+=</span> <span class="n">element_cnt</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="s1">&#39;----train loss:</span><span class="si">%f</span><span class="s1">,answer start loss:</span><span class="si">%f</span><span class="s1">,answer end loss:</span><span class="si">%f</span><span class="s1">,answer start acc:</span><span class="si">%f</span><span class="s1">,answer end acc:</span><span class="si">%f</span><span class="s1">-------&#39;</span> <span class="o">%</span> <span class="p">(</span>
+                        <span class="n">loss</span> <span class="o">/</span> <span class="n">cnt</span><span class="p">,</span>
+                        <span class="n">answer_start_loss</span> <span class="o">/</span> <span class="n">cnt</span><span class="p">,</span>
+                        <span class="n">answer_end_loss</span> <span class="o">/</span> <span class="n">cnt</span><span class="p">,</span>
+                        <span class="n">answer_start_acc</span> <span class="o">/</span> <span class="n">cnt</span><span class="p">,</span>
+                        <span class="n">answer_end_acc</span> <span class="o">/</span> <span class="n">cnt</span><span class="p">))</span>
+
+                <span class="c1"># if step % verbose_train == 0:</span>
+                <span class="c1">#     predictions = self.model.predict(X_batch)</span>
+                <span class="c1">#     answer = self.evaluate_helper.dump_answer(</span>
+                <span class="c1">#         predictions, X_ids, mode=&#39;train&#39;)</span>
+                <span class="c1">#     t_em, t_f1 = self.evaluate_helper.evaluate_train(</span>
+                <span class="c1">#         answer, self.train_groud_truth)</span>
+                <span class="c1">#     em_tr += t_em * element_cnt</span>
+                <span class="c1">#     f1_tr += t_f1 * element_cnt</span>
+                <span class="c1">#     cnt_tr += element_cnt</span>
+                <span class="c1">#     print(&#39;--train Extract Match score :%f--------F1 score:%f&#39; %</span>
+                <span class="c1">#           (em_tr / cnt_tr, f1_tr / cnt_tr))</span>
+                <span class="c1">#     self.save_logs(em_tr / cnt_tr, f1_tr / cnt_tr, i *</span>
+                <span class="c1">#                    steps_per_epoch + step, mode=&#39;train&#39;)  # total step</span>
+
+                <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span></div></div>
+
+    <span class="c1">#         em, f1 = self.evaluate_on_dev(</span>
+    <span class="c1">#             valid_x, dev_batch_size, i)  # can control huge data</span>
+    <span class="c1">#         print(&#39;--Dev Extract Match score :%f--------F1 score:%f&#39; % (em, f1))</span>
+    <span class="c1">#</span>
+    <span class="c1">#         self.save_logs(em, f1, i, mode=&#39;dev&#39;)</span>
+    <span class="c1">#         if em &gt; best_em or f1 &gt; best_f1:</span>
+    <span class="c1">#             self.model.save_weights(self.bst_model_path)</span>
+    <span class="c1">#             print(&#39;save model to &#39;, self.bst_model_path)</span>
+    <span class="c1">#             if save_epoch:</span>
+    <span class="c1">#                 self.model.save_weights(</span>
+    <span class="c1">#                     self.bst_model_path.replace(&#39;.hdf5&#39;, &#39;.ep%d.hdf5&#39; % i))</span>
+    <span class="c1">#                 print(&#39;save model to &#39;, self.bst_model_path.replace(</span>
+    <span class="c1">#                     &#39;.hdf5&#39;, &#39;.ep%d.hdf5&#39; % i))</span>
+    <span class="c1">#             if em &gt; best_em:</span>
+    <span class="c1">#                 best_em = em</span>
+    <span class="c1">#             if f1 &gt; best_f1:</span>
+    <span class="c1">#                 best_f1 = f1</span>
+    <span class="c1">#             early_stop_step = 0</span>
+    <span class="c1">#         else:</span>
+    <span class="c1">#             early_stop_step += 1</span>
+    <span class="c1">#             if early_stop_step &gt;= early_stop:</span>
+    <span class="c1">#                 print(&#39;early stop @&#39;, i)</span>
+    <span class="c1">#                 break</span>
+    <span class="c1">#             if adjust_lr:</span>
+    <span class="c1">#                 lr = float(K.get_value(self.model.optimizer.lr))</span>
+    <span class="c1">#                 K.set_value(self.model.optimizer.lr, lr / 2)</span>
+    <span class="c1">#</span>
+    <span class="c1"># def get_predict(self, valid_x, batch_size):</span>
+    <span class="c1">#     te_gen = self.te_gen(valid_x, batch_size=batch_size)</span>
+    <span class="c1">#     steps = int(np.ceil(len(valid_x[0]) / float(batch_size)))</span>
+    <span class="c1">#     st = []</span>
+    <span class="c1">#     ed = []</span>
+    <span class="c1">#     for X, step in tqdm(zip(te_gen, range(steps)), total=steps):</span>
+    <span class="c1">#         # batch on predict acclerate betten on predict</span>
+    <span class="c1">#         _st, _ed = self.model.predict_on_batch(X)</span>
+    <span class="c1">#         st.append(_st)</span>
+    <span class="c1">#         ed.append(_ed)</span>
+    <span class="c1">#     return [st, ed]</span>
+    <span class="c1">#</span>
+    <span class="c1"># def evaluate_on_dev(self, valid_x, batch_size, epoch_idx):</span>
+    <span class="c1">#     predictions = self.get_predict(valid_x, batch_size)</span>
+    <span class="c1">#     if self.is_save_intemediate:</span>
+    <span class="c1">#         pd.to_pickle(predictions, epoch_idx + &#39;_&#39; + self.output_name)</span>
+    <span class="c1">#     dev_ids = pd.read_pickle(&#39;./input/dev_question_id.pkl&#39;)</span>
+    <span class="c1">#     answers = self.evaluate_helper.dump_answer(predictions, dev_ids, mode=&#39;dev&#39;)</span>
+    <span class="c1">#     return self.evaluate_helper.evaluate_dev(answers)</span>
+    <span class="c1">#</span>
+    <span class="c1"># def predict_probs(self, valid_x, batch_size):</span>
+    <span class="c1">#     predictions = self.get_predict(valid_x, 10)</span>
+    <span class="c1">#     return predictions</span>
+    <span class="c1">#</span>
+    <span class="c1"># def predict(self, valid_x, batch_size):</span>
+    <span class="c1">#     predictions = self.get_predict(valid_x, 10)</span>
+    <span class="c1">#     dev_ids = pd.read_pickle(&#39;./input/dev_question_id.pkl&#39;)</span>
+    <span class="c1">#     answers = self.evaluate_helper.dump_answer(</span>
+    <span class="c1">#         predictions, dev_ids, mode=&#39;dev&#39;)</span>
+    <span class="c1">#     return answers</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Sun Yan
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

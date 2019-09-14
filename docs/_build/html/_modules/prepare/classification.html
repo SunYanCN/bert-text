@@ -1,0 +1,333 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="zh" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>prepare.classification &mdash; bert_text 0.1.0 文档</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../../',
+              VERSION:'0.1.0',
+              LANGUAGE:'zh',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> bert_text
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">bert_text</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">模块代码</a> &raquo;</li>
+        
+      <li>prepare.classification</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>prepare.classification 源代码</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="k">import</span> <span class="n">tqdm</span>
+
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">ChineseFullTokenizer</span>
+
+
+<div class="viewcode-block" id="PaddingInputExample"><a class="viewcode-back" href="../../rst/prepare.html#prepare.classification.PaddingInputExample">[文档]</a><span class="k">class</span> <span class="nc">PaddingInputExample</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Fake example so the num input examples is a multiple of the batch size.</span>
+<span class="sd">    When running eval/predict on the TPU, we need to pad the number of examples</span>
+<span class="sd">    to be a multiple of the batch size, because the TPU requires a fixed batch</span>
+<span class="sd">    size. The alternative is to drop the last batch, which is bad because it means</span>
+<span class="sd">    the entire output data won&#39;t be generated.</span>
+<span class="sd">    We use this class instead of `None` because treating `None` as padding</span>
+<span class="sd">    battches could cause silent errors.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="convert_single_example"><a class="viewcode-back" href="../../rst/prepare.html#prepare.classification.convert_single_example">[文档]</a><span class="k">def</span> <span class="nf">convert_single_example</span><span class="p">(</span><span class="n">tokenizer</span><span class="p">,</span> <span class="n">example</span><span class="p">,</span> <span class="n">max_seq_length</span><span class="o">=</span><span class="mi">256</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Converts a single `InputExample` into a single `InputFeatures`.&quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">example</span><span class="p">,</span> <span class="n">PaddingInputExample</span><span class="p">):</span>
+        <span class="n">input_ids</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">max_seq_length</span>
+        <span class="n">input_mask</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">max_seq_length</span>
+        <span class="n">segment_ids</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">max_seq_length</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">return</span> <span class="n">input_ids</span><span class="p">,</span> <span class="n">input_mask</span><span class="p">,</span> <span class="n">segment_ids</span><span class="p">,</span> <span class="n">label</span>
+
+    <span class="n">tokens_a</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">example</span><span class="o">.</span><span class="n">text_a</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokens_a</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">max_seq_length</span> <span class="o">-</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">tokens_a</span> <span class="o">=</span> <span class="n">tokens_a</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span> <span class="p">(</span><span class="n">max_seq_length</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)]</span>
+
+    <span class="n">tokens</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">segment_ids</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">tokens</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;[CLS]&quot;</span><span class="p">)</span>
+    <span class="n">segment_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokens_a</span><span class="p">:</span>
+        <span class="n">tokens</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+        <span class="n">segment_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">tokens</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;[SEP]&quot;</span><span class="p">)</span>
+    <span class="n">segment_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">input_ids</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">convert_tokens_to_ids</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span>
+
+    <span class="c1"># The mask has 1 for real tokens and 0 for padding tokens. Only real</span>
+    <span class="c1"># tokens are attended to.</span>
+    <span class="n">input_mask</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_ids</span><span class="p">)</span>
+
+    <span class="c1"># Zero-pad up to the sequence length.</span>
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_ids</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">max_seq_length</span><span class="p">:</span>
+        <span class="n">input_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">input_mask</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">segment_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_ids</span><span class="p">)</span> <span class="o">==</span> <span class="n">max_seq_length</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_mask</span><span class="p">)</span> <span class="o">==</span> <span class="n">max_seq_length</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">segment_ids</span><span class="p">)</span> <span class="o">==</span> <span class="n">max_seq_length</span>
+
+    <span class="k">return</span> <span class="n">input_ids</span><span class="p">,</span> <span class="n">input_mask</span><span class="p">,</span> <span class="n">segment_ids</span><span class="p">,</span> <span class="n">example</span><span class="o">.</span><span class="n">label</span></div>
+
+
+<div class="viewcode-block" id="convert_examples_to_features"><a class="viewcode-back" href="../../rst/prepare.html#prepare.classification.convert_examples_to_features">[文档]</a><span class="k">def</span> <span class="nf">convert_examples_to_features</span><span class="p">(</span><span class="n">tokenizer</span><span class="p">,</span> <span class="n">examples</span><span class="p">,</span> <span class="n">max_seq_length</span><span class="o">=</span><span class="mi">256</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert a set of `InputExample`s to a list of `InputFeatures`.&quot;&quot;&quot;</span>
+
+    <span class="n">input_ids</span><span class="p">,</span> <span class="n">input_masks</span><span class="p">,</span> <span class="n">segment_ids</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">example</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">examples</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Converting examples to features&quot;</span><span class="p">):</span>
+        <span class="n">input_id</span><span class="p">,</span> <span class="n">input_mask</span><span class="p">,</span> <span class="n">segment_id</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">convert_single_example</span><span class="p">(</span>
+            <span class="n">tokenizer</span><span class="p">,</span> <span class="n">example</span><span class="p">,</span> <span class="n">max_seq_length</span>
+        <span class="p">)</span>
+        <span class="n">input_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">input_id</span><span class="p">)</span>
+        <span class="n">input_masks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">input_mask</span><span class="p">)</span>
+        <span class="n">segment_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">segment_id</span><span class="p">)</span>
+        <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">input_ids</span><span class="p">),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">input_masks</span><span class="p">),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">segment_ids</span><span class="p">),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span></div>
+
+
+<div class="viewcode-block" id="tfdata_generator"><a class="viewcode-back" href="../../rst/prepare.html#prepare.classification.tfdata_generator">[文档]</a><span class="k">def</span> <span class="nf">tfdata_generator</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">is_training</span><span class="p">,</span> <span class="n">max_seq_length</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Construct a data generator using tf.Dataset&#39;&#39;&#39;</span>
+    <span class="n">input_ids</span><span class="p">,</span> <span class="n">input_masks</span><span class="p">,</span> <span class="n">segment_ids</span> <span class="o">=</span> <span class="n">inputs</span>
+
+    <span class="k">def</span> <span class="nf">generator</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">,</span> <span class="n">s3</span><span class="p">,</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">input_ids</span><span class="p">,</span> <span class="n">input_masks</span><span class="p">,</span> <span class="n">segment_ids</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="p">{</span><span class="s2">&quot;input_ids&quot;</span><span class="p">:</span> <span class="n">s1</span><span class="p">,</span> <span class="s2">&quot;input_masks&quot;</span><span class="p">:</span> <span class="n">s2</span><span class="p">,</span> <span class="s2">&quot;segment_ids&quot;</span><span class="p">:</span> <span class="n">s3</span><span class="p">},</span> <span class="n">l</span>
+
+    <span class="n">dataset</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">from_generator</span><span class="p">(</span><span class="n">generator</span><span class="p">,</span>
+                                             <span class="n">output_shapes</span><span class="o">=</span><span class="p">({</span><span class="s2">&quot;input_ids&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">max_seq_length</span><span class="p">),</span>
+                                                             <span class="s2">&quot;input_masks&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">max_seq_length</span><span class="p">),</span>
+                                                             <span class="s2">&quot;segment_ids&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">max_seq_length</span><span class="p">)},</span>
+                                                            <span class="p">(</span><span class="mi">1</span><span class="p">)),</span>
+                                             <span class="n">output_types</span><span class="o">=</span><span class="p">(</span>
+                                                 <span class="p">{</span><span class="s2">&quot;input_ids&quot;</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">int64</span><span class="p">,</span> <span class="s2">&quot;input_masks&quot;</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">int64</span><span class="p">,</span>
+                                                  <span class="s2">&quot;segment_ids&quot;</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">int64</span><span class="p">},</span>
+                                                 <span class="n">tf</span><span class="o">.</span><span class="n">int64</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">is_training</span><span class="p">:</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">cache</span><span class="p">()</span>
+    <span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">epochs</span><span class="p">)</span>
+    <span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">drop_remainder</span><span class="o">=</span><span class="kc">True</span> <span class="k">if</span> <span class="n">is_training</span> <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">prefetch</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">contrib</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">AUTOTUNE</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">dataset</span></div>
+
+
+<div class="viewcode-block" id="pipline"><a class="viewcode-back" href="../../rst/prepare.html#prepare.classification.pipline">[文档]</a><span class="k">def</span> <span class="nf">pipline</span><span class="p">(</span><span class="n">vocab_file</span><span class="p">,</span> <span class="n">do_lower_case</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">max_seq_length</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">return_tf_dataset</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">ChineseFullTokenizer</span><span class="p">(</span><span class="n">vocab_file</span><span class="o">=</span><span class="n">vocab_file</span><span class="p">,</span> <span class="n">do_lower_case</span><span class="o">=</span><span class="n">do_lower_case</span><span class="p">)</span>
+
+    <span class="n">train_input_ids</span><span class="p">,</span> <span class="n">train_input_masks</span><span class="p">,</span> <span class="n">train_segment_ids</span><span class="p">,</span> <span class="n">train_labels</span> <span class="o">=</span> <span class="n">convert_examples_to_features</span><span class="p">(</span><span class="n">tokenizer</span><span class="p">,</span>
+                                                                                                       <span class="n">dataset</span><span class="o">.</span><span class="n">get_train_examples</span><span class="p">(),</span>
+                                                                                                       <span class="n">max_seq_length</span><span class="o">=</span><span class="n">max_seq_length</span><span class="p">)</span>
+    <span class="n">dev_input_ids</span><span class="p">,</span> <span class="n">dev_input_masks</span><span class="p">,</span> <span class="n">dev_segment_ids</span><span class="p">,</span> <span class="n">dev_labels</span> <span class="o">=</span> <span class="n">convert_examples_to_features</span><span class="p">(</span><span class="n">tokenizer</span><span class="p">,</span>
+                                                                                               <span class="n">dataset</span><span class="o">.</span><span class="n">get_dev_examples</span><span class="p">(),</span>
+                                                                                               <span class="n">max_seq_length</span><span class="o">=</span><span class="n">max_seq_length</span><span class="p">)</span>
+
+    <span class="n">train_inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">train_input_ids</span><span class="p">,</span> <span class="n">train_segment_ids</span><span class="p">]</span>
+    <span class="n">dev_inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">dev_input_ids</span><span class="p">,</span> <span class="n">dev_segment_ids</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">return_tf_dataset</span><span class="p">:</span>
+        <span class="n">train_dataset</span> <span class="o">=</span> <span class="n">tfdata_generator</span><span class="p">(</span><span class="n">train_inputs</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">,</span>
+                                         <span class="n">is_training</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                         <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
+                                         <span class="n">epochs</span><span class="o">=</span><span class="n">epochs</span><span class="p">,</span>
+                                         <span class="n">max_seq_length</span><span class="o">=</span><span class="n">max_seq_length</span><span class="p">)</span>
+        <span class="n">dev_dataset</span> <span class="o">=</span> <span class="n">tfdata_generator</span><span class="p">(</span><span class="n">dev_inputs</span><span class="p">,</span> <span class="n">dev_labels</span><span class="p">,</span>
+                                       <span class="n">is_training</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                       <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
+                                       <span class="n">epochs</span><span class="o">=</span><span class="n">epochs</span><span class="p">,</span>
+                                       <span class="n">max_seq_length</span><span class="o">=</span><span class="n">max_seq_length</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">train_dataset</span><span class="o">.</span><span class="n">make_one_shot_iterator</span><span class="p">(),</span> <span class="n">dev_dataset</span><span class="o">.</span><span class="n">make_one_shot_iterator</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">train_inputs</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">,</span> <span class="n">dev_inputs</span><span class="p">,</span> <span class="n">dev_labels</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Sun Yan
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

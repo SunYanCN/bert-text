@@ -1,0 +1,460 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="zh" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>dataset package &mdash; bert_text 0.1.0 文档</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'0.1.0',
+              LANGUAGE:'zh',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> bert_text
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">dataset package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-dataset.chnsenticorp">dataset.chnsenticorp module</a></li>
+<li><a class="reference internal" href="#module-dataset.cmrc">dataset.cmrc module</a></li>
+<li><a class="reference internal" href="#module-dataset.dataset">dataset.dataset module</a></li>
+<li><a class="reference internal" href="#module-dataset.lcqmc">dataset.lcqmc module</a></li>
+<li><a class="reference internal" href="#module-dataset.msra_ner">dataset.msra_ner module</a></li>
+<li><a class="reference internal" href="#module-dataset.nlpcc_dbqa">dataset.nlpcc_dbqa module</a></li>
+<li><a class="reference internal" href="#module-dataset">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">bert_text</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>dataset package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/rst/dataset.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="dataset-package">
+<h1>dataset package<a class="headerlink" href="#dataset-package" title="永久链接至标题">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="module-dataset.chnsenticorp">
+<span id="dataset-chnsenticorp-module"></span><h2>dataset.chnsenticorp module<a class="headerlink" href="#module-dataset.chnsenticorp" title="永久链接至标题">¶</a></h2>
+<dl class="class">
+<dt id="dataset.chnsenticorp.ChnSentiCorp">
+<em class="property">class </em><code class="descclassname">dataset.chnsenticorp.</code><code class="descname">ChnSentiCorp</code><span class="sig-paren">(</span><em>save_path='.'</em>, <em>load_df=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/chnsenticorp.html#ChnSentiCorp"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#dataset.chnsenticorp.ChnSentiCorp" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(在 Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>ChnSentiCorp (by Tan Songbo at ICT of Chinese Academy of Sciences, and for
+opinion mining)</p>
+<dl class="method">
+<dt id="dataset.chnsenticorp.ChnSentiCorp.get_dev_examples">
+<code class="descname">get_dev_examples</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/chnsenticorp.html#ChnSentiCorp.get_dev_examples"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#dataset.chnsenticorp.ChnSentiCorp.get_dev_examples" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dataset.chnsenticorp.ChnSentiCorp.get_labels">
+<code class="descname">get_labels</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/chnsenticorp.html#ChnSentiCorp.get_labels"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#dataset.chnsenticorp.ChnSentiCorp.get_labels" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dataset.chnsenticorp.ChnSentiCorp.get_test_examples">
+<code class="descname">get_test_examples</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/chnsenticorp.html#ChnSentiCorp.get_test_examples"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#dataset.chnsenticorp.ChnSentiCorp.get_test_examples" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dataset.chnsenticorp.ChnSentiCorp.get_train_examples">
+<code class="descname">get_train_examples</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/chnsenticorp.html#ChnSentiCorp.get_train_examples"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#dataset.chnsenticorp.ChnSentiCorp.get_train_examples" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="dataset.chnsenticorp.ChnSentiCorp.num_labels">
+<code class="descname">num_labels</code><a class="headerlink" href="#dataset.chnsenticorp.ChnSentiCorp.num_labels" title="永久链接至目标">¶</a></dt>
+<dd><p>Return the number of labels in the dataset.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.chnsenticorp.ChnSentiCorp.print_info">
+<code class="descname">print_info</code><span class="sig-paren">(</span><em>print_num=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/chnsenticorp.html#ChnSentiCorp.print_info"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#dataset.chnsenticorp.ChnSentiCorp.print_info" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-dataset.cmrc">
+<span id="dataset-cmrc-module"></span><h2>dataset.cmrc module<a class="headerlink" href="#module-dataset.cmrc" title="永久链接至标题">¶</a></h2>
+<dl class="class">
+<dt id="dataset.cmrc.CMRC">
+<em class="property">class </em><code class="descclassname">dataset.cmrc.</code><code class="descname">CMRC</code><span class="sig-paren">(</span><em>save_path='.'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/cmrc.html#CMRC"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#dataset.cmrc.CMRC" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(在 Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A set of manually annotated Chinese word-segmentation data and
+specifications for training and testing a Chinese word-segmentation system
+for research purposes.  For more information please refer to
+<a class="reference external" href="https://www.microsoft.com/en-us/download/details.aspx?id=52531">https://www.microsoft.com/en-us/download/details.aspx?id=52531</a></p>
+<dl class="method">
+<dt id="dataset.cmrc.CMRC.get_dev_examples">
+<code class="descname">get_dev_examples</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/cmrc.html#CMRC.get_dev_examples"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#dataset.cmrc.CMRC.get_dev_examples" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dataset.cmrc.CMRC.get_labels">
+<code class="descname">get_labels</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/cmrc.html#CMRC.get_labels"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#dataset.cmrc.CMRC.get_labels" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dataset.cmrc.CMRC.get_test_examples">
+<code class="descname">get_test_examples</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/cmrc.html#CMRC.get_test_examples"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#dataset.cmrc.CMRC.get_test_examples" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dataset.cmrc.CMRC.get_train_examples">
+<code class="descname">get_train_examples</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/cmrc.html#CMRC.get_train_examples"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#dataset.cmrc.CMRC.get_train_examples" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="dataset.cmrc.CMRC.num_labels">
+<code class="descname">num_labels</code><a class="headerlink" href="#dataset.cmrc.CMRC.num_labels" title="永久链接至目标">¶</a></dt>
+<dd><p>Return the number of labels in the dataset.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.cmrc.CMRC.print_info">
+<code class="descname">print_info</code><span class="sig-paren">(</span><em>print_num=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/cmrc.html#CMRC.print_info"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#dataset.cmrc.CMRC.print_info" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-dataset.dataset">
+<span id="dataset-dataset-module"></span><h2>dataset.dataset module<a class="headerlink" href="#module-dataset.dataset" title="永久链接至标题">¶</a></h2>
+<dl class="class">
+<dt id="dataset.dataset.InputExample">
+<em class="property">class </em><code class="descclassname">dataset.dataset.</code><code class="descname">InputExample</code><span class="sig-paren">(</span><em>guid</em>, <em>text_a</em>, <em>text_b=None</em>, <em>label=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/dataset.html#InputExample"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#dataset.dataset.InputExample" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(在 Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Input data structure of BERT/ERNIE, can satisfy single sequence task like
+text classification, sequence lableing; Sequence pair task like dialog
+task.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="dataset.dataset.SquadExample">
+<em class="property">class </em><code class="descclassname">dataset.dataset.</code><code class="descname">SquadExample</code><span class="sig-paren">(</span><em>qas_id</em>, <em>question_text</em>, <em>doc_tokens</em>, <em>orig_answer_text=None</em>, <em>start_position=None</em>, <em>end_position=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/dataset.html#SquadExample"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#dataset.dataset.SquadExample" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(在 Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A single training/test example for simple sequence classification.
+For examples without an answer, the start and end position are -1.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-dataset.lcqmc">
+<span id="dataset-lcqmc-module"></span><h2>dataset.lcqmc module<a class="headerlink" href="#module-dataset.lcqmc" title="永久链接至标题">¶</a></h2>
+<dl class="class">
+<dt id="dataset.lcqmc.LCQMC">
+<em class="property">class </em><code class="descclassname">dataset.lcqmc.</code><code class="descname">LCQMC</code><span class="sig-paren">(</span><em>save_path='.'</em>, <em>load_df=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/lcqmc.html#LCQMC"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#dataset.lcqmc.LCQMC" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(在 Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A set of manually annotated Chinese word-segmentation data and
+specifications for training and testing a Chinese word-segmentation system
+for research purposes.  For more information please refer to
+<a class="reference external" href="https://www.microsoft.com/en-us/download/details.aspx?id=52531">https://www.microsoft.com/en-us/download/details.aspx?id=52531</a></p>
+<dl class="method">
+<dt id="dataset.lcqmc.LCQMC.get_dev_examples">
+<code class="descname">get_dev_examples</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/lcqmc.html#LCQMC.get_dev_examples"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#dataset.lcqmc.LCQMC.get_dev_examples" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dataset.lcqmc.LCQMC.get_labels">
+<code class="descname">get_labels</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/lcqmc.html#LCQMC.get_labels"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#dataset.lcqmc.LCQMC.get_labels" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dataset.lcqmc.LCQMC.get_test_examples">
+<code class="descname">get_test_examples</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/lcqmc.html#LCQMC.get_test_examples"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#dataset.lcqmc.LCQMC.get_test_examples" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dataset.lcqmc.LCQMC.get_train_examples">
+<code class="descname">get_train_examples</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/lcqmc.html#LCQMC.get_train_examples"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#dataset.lcqmc.LCQMC.get_train_examples" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="dataset.lcqmc.LCQMC.num_labels">
+<code class="descname">num_labels</code><a class="headerlink" href="#dataset.lcqmc.LCQMC.num_labels" title="永久链接至目标">¶</a></dt>
+<dd><p>Return the number of labels in the dataset.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.lcqmc.LCQMC.print_info">
+<code class="descname">print_info</code><span class="sig-paren">(</span><em>print_num=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/lcqmc.html#LCQMC.print_info"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#dataset.lcqmc.LCQMC.print_info" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-dataset.msra_ner">
+<span id="dataset-msra-ner-module"></span><h2>dataset.msra_ner module<a class="headerlink" href="#module-dataset.msra_ner" title="永久链接至标题">¶</a></h2>
+<dl class="class">
+<dt id="dataset.msra_ner.MSRA_NER">
+<em class="property">class </em><code class="descclassname">dataset.msra_ner.</code><code class="descname">MSRA_NER</code><span class="sig-paren">(</span><em>save_path='.'</em>, <em>load_df=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/msra_ner.html#MSRA_NER"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#dataset.msra_ner.MSRA_NER" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(在 Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A set of manually annotated Chinese word-segmentation data and
+specifications for training and testing a Chinese word-segmentation system
+for research purposes.  For more information please refer to
+<a class="reference external" href="https://www.microsoft.com/en-us/download/details.aspx?id=52531">https://www.microsoft.com/en-us/download/details.aspx?id=52531</a></p>
+<dl class="method">
+<dt id="dataset.msra_ner.MSRA_NER.get_dev_examples">
+<code class="descname">get_dev_examples</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/msra_ner.html#MSRA_NER.get_dev_examples"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#dataset.msra_ner.MSRA_NER.get_dev_examples" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dataset.msra_ner.MSRA_NER.get_labels">
+<code class="descname">get_labels</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/msra_ner.html#MSRA_NER.get_labels"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#dataset.msra_ner.MSRA_NER.get_labels" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dataset.msra_ner.MSRA_NER.get_test_examples">
+<code class="descname">get_test_examples</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/msra_ner.html#MSRA_NER.get_test_examples"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#dataset.msra_ner.MSRA_NER.get_test_examples" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dataset.msra_ner.MSRA_NER.get_train_examples">
+<code class="descname">get_train_examples</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/msra_ner.html#MSRA_NER.get_train_examples"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#dataset.msra_ner.MSRA_NER.get_train_examples" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="dataset.msra_ner.MSRA_NER.num_labels">
+<code class="descname">num_labels</code><a class="headerlink" href="#dataset.msra_ner.MSRA_NER.num_labels" title="永久链接至目标">¶</a></dt>
+<dd><p>Return the number of labels in the dataset.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.msra_ner.MSRA_NER.print_info">
+<code class="descname">print_info</code><span class="sig-paren">(</span><em>print_num=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/msra_ner.html#MSRA_NER.print_info"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#dataset.msra_ner.MSRA_NER.print_info" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-dataset.nlpcc_dbqa">
+<span id="dataset-nlpcc-dbqa-module"></span><h2>dataset.nlpcc_dbqa module<a class="headerlink" href="#module-dataset.nlpcc_dbqa" title="永久链接至标题">¶</a></h2>
+<dl class="class">
+<dt id="dataset.nlpcc_dbqa.NLPCC_DBQA">
+<em class="property">class </em><code class="descclassname">dataset.nlpcc_dbqa.</code><code class="descname">NLPCC_DBQA</code><span class="sig-paren">(</span><em>save_path='.'</em>, <em>load_df=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/nlpcc_dbqa.html#NLPCC_DBQA"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#dataset.nlpcc_dbqa.NLPCC_DBQA" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(在 Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A set of manually annotated Chinese word-segmentation data and
+specifications for training and testing a Chinese word-segmentation system
+for research purposes.  For more information please refer to
+<a class="reference external" href="https://www.microsoft.com/en-us/download/details.aspx?id=52531">https://www.microsoft.com/en-us/download/details.aspx?id=52531</a></p>
+<dl class="method">
+<dt id="dataset.nlpcc_dbqa.NLPCC_DBQA.get_dev_examples">
+<code class="descname">get_dev_examples</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/nlpcc_dbqa.html#NLPCC_DBQA.get_dev_examples"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#dataset.nlpcc_dbqa.NLPCC_DBQA.get_dev_examples" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dataset.nlpcc_dbqa.NLPCC_DBQA.get_labels">
+<code class="descname">get_labels</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/nlpcc_dbqa.html#NLPCC_DBQA.get_labels"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#dataset.nlpcc_dbqa.NLPCC_DBQA.get_labels" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dataset.nlpcc_dbqa.NLPCC_DBQA.get_test_examples">
+<code class="descname">get_test_examples</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/nlpcc_dbqa.html#NLPCC_DBQA.get_test_examples"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#dataset.nlpcc_dbqa.NLPCC_DBQA.get_test_examples" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dataset.nlpcc_dbqa.NLPCC_DBQA.get_train_examples">
+<code class="descname">get_train_examples</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/nlpcc_dbqa.html#NLPCC_DBQA.get_train_examples"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#dataset.nlpcc_dbqa.NLPCC_DBQA.get_train_examples" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="dataset.nlpcc_dbqa.NLPCC_DBQA.num_labels">
+<code class="descname">num_labels</code><a class="headerlink" href="#dataset.nlpcc_dbqa.NLPCC_DBQA.num_labels" title="永久链接至目标">¶</a></dt>
+<dd><p>Return the number of labels in the dataset.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.nlpcc_dbqa.NLPCC_DBQA.print_info">
+<code class="descname">print_info</code><span class="sig-paren">(</span><em>print_num=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/nlpcc_dbqa.html#NLPCC_DBQA.print_info"><span class="viewcode-link">[源代码]</span></a><a class="headerlink" href="#dataset.nlpcc_dbqa.NLPCC_DBQA.print_info" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-dataset">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-dataset" title="永久链接至标题">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Sun Yan
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

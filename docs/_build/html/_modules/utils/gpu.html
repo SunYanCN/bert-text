@@ -1,0 +1,320 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="zh" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>utils.gpu &mdash; bert_text 0.1.0 文档</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../../',
+              VERSION:'0.1.0',
+              LANGUAGE:'zh',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> bert_text
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">bert_text</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">模块代码</a> &raquo;</li>
+        
+      <li>utils.gpu</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>utils.gpu 源代码</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">subprocess</span>
+
+
+<div class="viewcode-block" id="PIDInfo"><a class="viewcode-back" href="../../rst/utils.html#utils.gpu.PIDInfo">[文档]</a><span class="k">class</span> <span class="nc">PIDInfo</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Process ps output for certain process ID (pid)&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pid</span><span class="p">):</span>
+        <span class="n">ps_proc</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s1">&#39;ps&#39;</span><span class="p">,</span> <span class="s1">&#39;-u&#39;</span><span class="p">,</span> <span class="s1">&#39;-p&#39;</span><span class="p">,</span> <span class="n">pid</span><span class="p">],</span>
+                                   <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
+                                   <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span>
+                                   <span class="p">)</span>
+        <span class="n">out</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">ps_proc</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="NvidiaSMI"><a class="viewcode-back" href="../../rst/utils.html#utils.gpu.NvidiaSMI">[文档]</a><span class="k">class</span> <span class="nc">NvidiaSMI</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Process nvidia-smi output&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gpu_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gpu_names</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nvidia_smi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nvidia_smi</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">general_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_general_info</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">process_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_info</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_nvidia_smi</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Run nvidia-smi without extra options and returns output as str&quot;&quot;&quot;</span>
+        <span class="n">proc</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s1">&#39;nvidia-smi&#39;</span><span class="p">],</span>
+                                <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
+                                <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span>
+                                <span class="p">)</span>
+        <span class="n">out</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">proc</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">err</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">EnvironmentError</span><span class="p">(</span><span class="s1">&#39;Failed to run nvidia-smi.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_gpu_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Run nvidia-smi to list GPUs and returns GPU names as list of str&quot;&quot;&quot;</span>
+        <span class="n">proc</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s1">&#39;nvidia-smi&#39;</span><span class="p">,</span> <span class="s1">&#39;-L&#39;</span><span class="p">],</span>
+                                <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
+                                <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span>
+                                <span class="p">)</span>
+        <span class="n">out</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">proc</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">err</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">EnvironmentError</span><span class="p">(</span><span class="s1">&#39;Failed to run nvidia-smi.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_general_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Parse the general info part of the nvidia-smi output and for each</span>
+<span class="sd">        GPU extracts operating parameters (temperature, memory use, etc.),</span>
+<span class="sd">        returned as a list with for each GPU a dictionary&quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s1">&#39;N/&#39;</span> <span class="ow">in</span> <span class="n">string</span><span class="p">:</span>
+                <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">string</span>
+
+        <span class="n">header</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nvidia_smi</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;Processes:&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">header</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Lines 7:-3 actually contain the parameters</span>
+        <span class="n">gpu_info</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">7</span><span class="p">:</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span>
+
+        <span class="n">general_info</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">gpu_info</span><span class="p">)</span> <span class="o">//</span> <span class="mi">3</span><span class="p">):</span>
+            <span class="n">name_line</span> <span class="o">=</span> <span class="n">gpu_info</span><span class="p">[</span><span class="mi">3</span> <span class="o">*</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+            <span class="n">info_line</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39; &#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">gpu_info</span><span class="p">[</span><span class="mi">3</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+            <span class="n">d</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;gpu_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">parse</span><span class="p">(</span><span class="n">name_line</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gpu_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()[:</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;persistence_m&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="n">name_line</span><span class="p">[</span><span class="o">-</span><span class="mi">7</span><span class="p">])</span>
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;bus_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="n">name_line</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">])</span>
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;disp_a&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="n">name_line</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">])</span>
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;uncorr_ecc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="n">name_line</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
+
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;fan&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">info_line</span><span class="p">[</span><span class="mi">1</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;temp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">info_line</span><span class="p">[</span><span class="mi">2</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;perf&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">info_line</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;pwr_usage&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">parse</span><span class="p">(</span><span class="n">info_line</span><span class="p">[</span><span class="mi">4</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;pwr_cap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">parse</span><span class="p">(</span><span class="n">info_line</span><span class="p">[</span><span class="mi">6</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;mem_usage&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">parse</span><span class="p">(</span><span class="n">info_line</span><span class="p">[</span><span class="mi">8</span><span class="p">][:</span><span class="o">-</span><span class="mi">3</span><span class="p">]))</span>
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;mem_cap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">parse</span><span class="p">(</span><span class="n">info_line</span><span class="p">[</span><span class="mi">10</span><span class="p">][:</span><span class="o">-</span><span class="mi">3</span><span class="p">]))</span>
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;gpu_util&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">parse</span><span class="p">(</span><span class="n">info_line</span><span class="p">[</span><span class="mi">12</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;comput_m&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">info_line</span><span class="p">[</span><span class="mi">13</span><span class="p">]</span>
+
+            <span class="n">general_info</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">general_info</span>
+
+    <span class="k">def</span> <span class="nf">_process_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Combine the information from nvidia-smi and the pid info for every</span>
+<span class="sd">        pid, enabling printing the pid, username, gpu memory, ram, cpu etc.&quot;&quot;&quot;</span>
+        <span class="n">process_lines</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nvidia_smi</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;=====|&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">process_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">process_lines</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">gpu_id</span><span class="p">,</span> <span class="n">pid</span><span class="p">,</span> <span class="n">tp</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">gpu_mem</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="n">ps_line</span> <span class="o">=</span> <span class="n">PIDInfo</span><span class="p">(</span><span class="n">pid</span><span class="p">)</span><span class="o">.</span><span class="n">info</span>
+                <span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">pid</span><span class="p">,</span> <span class="n">cpu</span><span class="p">,</span> <span class="n">mem</span><span class="p">,</span> <span class="n">vsz</span><span class="p">,</span> <span class="n">rss</span><span class="p">,</span> <span class="n">tty</span><span class="p">,</span> <span class="n">stat</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">time</span><span class="p">)</span> <span class="o">=</span> \
+                    <span class="n">ps_line</span><span class="o">.</span><span class="n">split</span><span class="p">()[:</span><span class="mi">10</span><span class="p">]</span>
+                <span class="n">command</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ps_line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">10</span><span class="p">:])</span>
+                <span class="n">process_list</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                    <span class="s1">&#39;gpu_id&#39;</span><span class="p">:</span> <span class="n">gpu_id</span><span class="p">,</span>
+                    <span class="s1">&#39;pid&#39;</span><span class="p">:</span> <span class="n">pid</span><span class="p">,</span>
+                    <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">tp</span><span class="p">,</span>
+                    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+                    <span class="s1">&#39;gpu_mem&#39;</span><span class="p">:</span> <span class="n">gpu_mem</span><span class="p">[:</span><span class="o">-</span><span class="mi">3</span><span class="p">],</span>
+                    <span class="s1">&#39;cpu&#39;</span><span class="p">:</span> <span class="n">cpu</span><span class="p">,</span>
+                    <span class="s1">&#39;mem&#39;</span><span class="p">:</span> <span class="n">mem</span><span class="p">,</span>
+                    <span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="n">user</span><span class="p">,</span>
+                    <span class="s1">&#39;command&#39;</span><span class="p">:</span> <span class="n">command</span>
+                <span class="p">})</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="k">pass</span>
+        <span class="k">return</span> <span class="n">process_list</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">nvidia_smi</span> <span class="o">=</span> <span class="n">NvidiaSMI</span><span class="p">()</span>
+    <span class="n">gpu_info</span> <span class="o">=</span> <span class="n">nvidia_smi</span><span class="o">.</span><span class="n">general_info</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">gpu_info</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Sun Yan
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
